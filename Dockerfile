@@ -2,7 +2,7 @@ FROM     centos:centos7
 
 RUN     yum install -y gcc-c++ make wget curl
 
-RUN     curl -sL https://rpm.nodesource.com/setup_8.x 
+RUN     curl -sL https://rpm.nodesource.com/setup_8.x | bash -
 
 # Install Node.js and npm
 RUN     yum install -y nodejs
