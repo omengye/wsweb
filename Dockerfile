@@ -1,5 +1,4 @@
-# DOCKER-VERSION 0.3.4
-FROM    centos:7.4
+RUN     centos:centos7
 
 RUN     yum install -y gcc-c++ make wget
 RUN     curl -sL https://rpm.nodesource.com/setup_8.x | sudo -E bash -
