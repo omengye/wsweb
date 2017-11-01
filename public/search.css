@@ -1,0 +1,82 @@
+
+#continner {
+    width: 80%;
+    height: 100%;
+    position: absolute;
+    margin-left: 10%;
+}
+
+#search {
+    width: 80%;
+    margin-top: 5%;
+    margin-left: 10%;
+}
+
+#search_txt {
+    width: 40%;
+    height: 34px;
+    margin-top: 1px;
+}
+
+#sbtn {
+    height: 34px;
+}
+
+#result {
+    width: 80%;
+    margin-top: 1%;
+    margin-left: 10%;
+    z-index: 0;
+}
+
+.item {
+    margin-top: 2.5%;
+}
+
+.title {
+    font-size: 18px;
+    margin-top: 10px;
+    margin-bottom: 1px;
+}
+
+.formattedUrl {
+    color: #006621;
+}
+
+.htmlSnippet b {
+    color: rgba(255, 0, 0, 0.57);
+}
+
+.link {
+    color: #609
+}
+
+#pageneration {
+    margin-top: 20px;
+    height: 70px;
+    float: left;
+}
+
+#suggest {
+    width: 32%;
+    margin-left: 10%;
+    z-index: 1;
+    border-color: #ccc;
+    border-width: 1px;
+    border-style: solid;
+    position: absolute;
+    background-color: white;
+}
+
+.sitem {
+    height: 30px
+}
+
+.selitem {
+	background-color: lightblue;
+}
+
+.sval {
+    padding-top: 5px;
+    padding-left: 5px;
+}

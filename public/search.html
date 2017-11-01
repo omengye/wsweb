@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>sczl</title>
+  <link rel="stylesheet" href="search.css">
+  <link rel="stylesheet" href="common/bootstrap.min.css">
+</head>
+
+<body>
+  <div id="continner">
+      <div id="search" class="input-group">
+          <input id="search_txt" type="text" class="form-control" placeholder="Search for...">
+          <span class="input-group-btn"  style="float:left;">
+            <button id="sbtn" class="btn btn-default glyphicon glyphicon-search" type="button" onclick="search()"></button>
+          </span>
+      </div>
+      <div id="suggest">
+      </div>
+
+      <div id="result">
+        <div id="infos" style="display:none">
+          找到约<span id="stotal"></span>条记录 (用时<span id="stime"></span>秒)
+        </div>
+        <div id="items">
+          
+
+        </div>
+        <div id="pageneration">
+          
+        </div>
+      </div>
+  </div>
+  <script src="common/jquery.min.js"></script>
+  <script src="/search.js"></script>
+  <script src="/Pager.js"></script>
+  <script src="layer.js"></script>
+  <script src="common/bootstrap.min.js"></script>
+</body>
+
+</html>
