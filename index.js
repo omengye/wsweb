@@ -3,13 +3,12 @@ var express = require('express');
 var app = express();
 var https = require('https');
 var fs = require('fs');
-var io = require('socket.io')(server);
 var request = require('request');
 var restler = require('restler');
 
 var port = process.env.PORT || 443;
 var TIMER_LENGTH = 1000; // ms
-var DOMAIN = "http://127.0.0.1:443";
+var DOMAIN = "http://127.0.0.1:3000";
 var EXPIRE_TIME = 60; // s
 
 var userids = {};
@@ -19,6 +18,8 @@ var server = https.createServer({
   cert: fs.readFileSync(__dirname + "/cert/fullchain.pem"),
   ca: fs.readFileSync(__dirname + "/cert/chain.pem")
 }, app);
+
+var io = require('socket.io')(server);
 
 server.listen(port, function () {
   console.log('Server listening at port %d', port);
