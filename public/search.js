@@ -47,6 +47,7 @@ var search = function(ispage) {
     }, function(data) {
 		$('#infos').show();
         layer.close(index);
+		suggest.hide();
         if (data.error) {
             $('#infos').empty();
             $('#infos').text("ERROR: "+data.error);

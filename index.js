@@ -1,17 +1,24 @@
 // Setup basic express server
 var express = require('express');
 var app = express();
-var server = require('http').createServer(app);
+var https = require('https');
+var fs = require('fs');
 var io = require('socket.io')(server);
 var request = require('request');
 var restler = require('restler');
 
-var port = process.env.PORT || 80;
+var port = process.env.PORT || 443;
 var TIMER_LENGTH = 1000; // ms
-var DOMAIN = process.env.DOMAIN || "http://127.0.0.1:443";
+var DOMAIN = "http://127.0.0.1:443";
 var EXPIRE_TIME = 60; // s
 
 var userids = {};
+
+var server = https.createServer({ 
+  key: fs.readFileSync(__dirname + "/cert/privkey.pem"),
+  cert: fs.readFileSync(__dirname + "/cert/fullchain.pem"),
+  ca: fs.readFileSync(__dirname + "/cert/chain.pem")
+}, app);
 
 server.listen(port, function () {
   console.log('Server listening at port %d', port);
