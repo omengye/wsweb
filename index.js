@@ -87,15 +87,15 @@ var getUser = function (ip, callback) {
     })
 }
 
-var getRealIp = function(sHeaders) {
-  if (!sHeaders){
-	  return null;
+var getRealIp = function (sHeaders) {
+  if (!sHeaders) {
+    return null;
   }
   else if (sHeaders.hasOwnProperty('x-real-ip')) {
     return sHeaders['x-real-ip'];
   }
   else if (sHeaders.hasOwnProperty('x-forwarded-for')) {
-	return sHeaders['x-forwarded-for']
+    return sHeaders['x-forwarded-for']
   }
   return null;
 }
@@ -104,7 +104,7 @@ io.on('connection', function (socket) {
   var sHeaders = socket.handshake.headers;
   var clientIp = socket.request.connection.remoteAddress;
   if (getRealIp(sHeaders)) {
-    clientIp=getRealIp(sHeaders);
+    clientIp = getRealIp(sHeaders);
   }
 
   getToken(clientIp, function (result) {
@@ -183,18 +183,18 @@ app.post('/login', function (req, res) {
 
 });
 
- /**
-  * =========== 查询页 ============
-  */
-var getSearchResults = function(token, q, start, callback) {
+/**
+ * =========== 查询页 ============
+ */
+var getSearchResults = function (token, q, start, callback) {
   var num = 10;
   var headers = {
-    'Accept-Language':'zh-CN,zh',
-    'Content-Type':'application/json; charset=UTF-8'
+    'Accept-Language': 'zh-CN,zh',
+    'Content-Type': 'application/json; charset=UTF-8'
   }
   // start from 1
   var options = {
-    url: DOMAIN + '/g?access_token='+token+'&num='+num+'&start='+start+'&q='+encodeURIComponent(q),
+    url: DOMAIN + '/g?access_token=' + token + '&num=' + num + '&start=' + start + '&q=' + encodeURIComponent(q),
     method: 'GET'
   }
 
@@ -203,13 +203,13 @@ var getSearchResults = function(token, q, start, callback) {
   );
 }
 
-var getSearchSuggest = function(token, q, callback) {
+var getSearchSuggest = function (token, q, callback) {
   var headers = {
-    'Accept-Language':'zh-CN,zh',
-    'Content-Type':'application/json; charset=UTF-8'
+    'Accept-Language': 'zh-CN,zh',
+    'Content-Type': 'application/json; charset=UTF-8'
   }
   var options = {
-    url: DOMAIN + '/suggest?access_token='+token+'&q='+encodeURIComponent(q),
+    url: DOMAIN + '/suggest?access_token=' + token + '&q=' + encodeURIComponent(q),
     method: 'GET'
   }
 
@@ -218,11 +218,11 @@ var getSearchSuggest = function(token, q, callback) {
   );
 }
 
-app.get('/s', function(req, res){
+app.get('/s', function (req, res) {
   res.sendFile(__dirname + '/public/search.html');
 })
 
-app.post('/s', function(req, res){
+app.post('/s', function (req, res) {
   //if (!req.query || !req.query.q || !req.query.start) {
   if (!req.query || !req.query.start) {
     res.status(404).send('Not found');
@@ -231,55 +231,58 @@ app.post('/s', function(req, res){
   var sHeaders = req.headers;
   var clientIp = res.connection.remoteAddress;
   if (getRealIp(sHeaders)) {
-    clientIp=getRealIp(sHeaders);
+    clientIp = getRealIp(sHeaders);
   }
   //console.log(sHeaders);
   console.log("ip---: " + clientIp);
   getToken(clientIp, function (result) {
     var restoken = result.data;
     if (restoken.success) {
-      getSearchResults(restoken.data, req.query.q, req.query.start, function(error, response, body){
+      getSearchResults(restoken.data, req.query.q, req.query.start, function (error, response, body) {
         try {
           JSON.parse(body)
         }
-        catch(e){
-          res.status("200").send({'error':'parse json error'});
+        catch (e) {
+          res.status("200").send({ 'error': 'parse json error' });
         }
         res.status("200").send(JSON.parse(body));
       })
     }
     else {
-      res.status("200").send({'error': 'Not found'});
+      res.status("200").send({ 'error': 'Not found' });
     }
   });
   //return res.status("200").send(json);
 })
 
-app.post('/suggest', function(req, res){
+app.post('/suggest', function (req, res) {
   if (!req.query || !req.query.q) {
     return [];
   }
   var sHeaders = req.headers;
   var clientIp = res.connection.remoteAddress;
   if (getRealIp(sHeaders)) {
-    clientIp=getRealIp(sHeaders);
+    clientIp = getRealIp(sHeaders);
   }
   console.log("ip++++: " + clientIp);
   getToken(clientIp, function (result) {
     var restoken = result.data;
     if (restoken.success) {
-      getSearchSuggest(restoken.data, req.query.q, function(error, response, body){
+      getSearchSuggest(restoken.data, req.query.q, function (error, response, body) {
         try {
           JSON.parse(body)
         }
-        catch(e){
+        catch (e) {
           res.status("200").send([]);
         }
-		var jarr = JSON.parse(body);
-		var list = [];
-		jarr.forEach(function(item) {
-			list.push(item[0]);
-		});
+        var jarr = JSON.parse(body);
+        if (!Array.isArray(jarr)) {
+          res.status("200").send([]);
+        }
+        var list = [];
+        jarr.forEach(function (item) {
+          list.push(item[0]);
+        });
         res.status("200").send(list);
       })
     }
