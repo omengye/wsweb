@@ -57,7 +57,7 @@ export default {
       this.showSuggest = false;
       if (this.searchText!='') {
         this.sbtn = true;
-        this.$refs.searchRes.search(this.searchText); 
+        this.$refs.searchRes.search(1);
       }
     },
     filterSuggest(val) {

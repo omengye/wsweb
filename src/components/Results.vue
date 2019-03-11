@@ -69,14 +69,16 @@ export default {
     isEnddingPage() {
       if ((this.maxPage-1)*this.rowNum < this.startNum()
         || this.page >= 1 && this.items.length < this.rowNum) {
-          debugger;
           this.enddingPage = true;
       }
       else {
         this.enddingPage = false;
       }
     },
-    search() {
+    search(spage) {
+      if (spage) {
+        this.page = spage;
+      }
       utils.queryRequest(
         "/gcs/api/g?q=" +
           encodeURI(this.searchText) +

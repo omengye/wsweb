@@ -49,7 +49,13 @@ export default {
       this.clickType = '';
       this.page = this.pagebak;
     }
+  },
+  watch: {
+    cpage() {
+      this.page = this.cpage;
+    }
   }
+
 };
 </script>
 
