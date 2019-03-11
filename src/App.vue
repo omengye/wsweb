@@ -131,7 +131,7 @@ export default {
 
         setTimeout(() => {
           this.suggestWait = false;
-        }, 1000);
+        }, 600);
       }
       
       this.skipSearch = false;

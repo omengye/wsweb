@@ -2,28 +2,29 @@
   <div id="result">
     <div id="infos" v-show="showInfo">
       <div v-if="serror">{{errorMsg}}</div>
-      <div v-else>
-        找到约<span id="stotal">{{stotal}}</span>条记录 (用时<span id="stime">{{stime}}</span>秒)
+      <div v-else>找到约
+        <span id="stotal">{{stotal}}</span>条记录 (用时
+        <span id="stime">{{stime}}</span>秒)
       </div>
     </div>
     <div id="items">
-      <div class='item' v-for="(item, idx) in items" :key="idx">
-        <div class='title'>
-          <a class='link' href='item.link' target='_blank'>{{item.htmlTitle}}</a>
+      <div class="item" v-for="(item, idx) in items" :key="idx">
+        <div class="title">
+          <a class="link" v-bind:href="item.link" target="_blank" v-html="item.htmlTitle"></a>
         </div>
-        <div class='formattedUrl'>{{item.formattedUrl}}</div>
-        <div class='htmlSnippet'>{{item.htmlSnippet}}</div>
+        <div class="formattedUrl">{{item.formattedUrl}}</div>
+        <div class="htmlSnippet" v-html="item.htmlSnippet"></div>
       </div>
     </div>
-    <div v-show="showPage">
-      <pagehelper ref="pager" v-bind:cpage="page" v-on:changePage="changePage"/>
+    <div v-show="showPage" style="margin-top:10px;">
+      <pagehelper ref="pager" v-bind:enddingPage="enddingPage" v-bind:cpage="page" v-on:changePage="changePage"/>
     </div>
   </div>
 </template>
 
 <script>
-import utils from '../assets/js/utils.js'
-import Pagehelper from './Pagehelper.vue'
+import utils from "../assets/js/utils.js";
+import Pagehelper from "./Pagehelper.vue";
 export default {
   name: "Results",
   props: {
@@ -34,17 +35,19 @@ export default {
     Pagehelper
   },
   data() {
-      return {
-          showInfo: false,
-          page: 1,
-          rowNUm: 10, 
-          serror: false,
-          showPage: false,
-          stotal: 0,
-          stime: 0,
-          items: [],
-          errorMsg: ''
-      }
+    return {
+      showInfo: false,
+      page: 1,
+      rowNum: 10,
+      serror: false,
+      showPage: false,
+      stotal: 0,
+      stime: 0,
+      items: [],
+      errorMsg: "",
+      maxPage: 10,
+      enddingPage: false
+    };
   },
   methods: {
     showInfoMsg(stotal, stime) {
@@ -52,35 +55,65 @@ export default {
       this.stime = stime;
       this.showInfo = true;
     },
-    showErrorInfo(error) {
-      debugger;
+    errorInfo(str) {
       this.serror = true;
-      this.errorMsg = utils.formatErrorMsg(error);
+      this.errorMsg = str;
       this.showInfo = true;
     },
+    showErrorInfo(error) {
+      this.errorInfo(utils.formatErrorMsg(error));
+    },
+    startNum() {
+      return (this.page - 1) * this.rowNum + 1;
+    },
+    isEnddingPage() {
+      if ((this.maxPage-1)*this.rowNum < this.startNum()
+        || this.page >= 1 && this.items.length < this.rowNum) {
+          debugger;
+          this.enddingPage = true;
+      }
+      else {
+        this.enddingPage = false;
+      }
+    },
     search() {
-      utils.queryRequest('/gcs/api/g?q='+encodeURI(this.searchText)+"&start="+this.page, 
-        (data)=> {
+      utils.queryRequest(
+        "/gcs/api/g?q=" +
+          encodeURI(this.searchText) +
+          "&start=" +
+          this.startNum(),
+        data => {
           this.serror = false;
-          this.$emit('update:sbtn', false);
-          let stime = data.searchInformation.formattedSearchTime;
-          let stotal = data.searchInformation.formattedTotalResults;
-          this.showInfoMsg(stotal, stime);
-          
-          this.items = data.items;
-          if (this.items.length == this.rowNUm && this.page > 1) {
+          this.$emit("update:sbtn", false);
+
+          if (data.searchInformation == null) {
+            this.items = [];
+            this.errorInfo("No Data Found");
+          } 
+          else if (data.items == null) {
+            this.items  = [];
+          }
+          else {
+            let stime = data.searchInformation.formattedSearchTime;
+            let stotal = data.searchInformation.formattedTotalResults;
+            this.showInfoMsg(stotal, stime);
+            this.items = data.items;
+          }
+
+          if (this.items.length == this.rowNum && this.page > 0) {
             this.showPage = true;
           }
+
+          this.isEnddingPage();
           this.$refs.pager.commit();
+          window.scrollTo(0, 0);
         },
-        (error) => {
-          this.$emit('update:sbtn', false);
+        error => {
+          this.$emit("update:sbtn", false);
           this.$refs.pager.rollback();
-          debugger;
           this.showErrorInfo(error);
         }
       );
-
     },
     changePage(p) {
       this.page = p;

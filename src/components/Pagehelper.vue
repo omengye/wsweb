@@ -3,13 +3,13 @@
     <li id="startp" v-bind:class="{ loading: clickType==='startp'}" style="display: block;">
       <a class="pbtn" @click="changePage('startp')">&lt;&lt;</a>
     </li>
-    <li id="prevp" v-bind:class="{ loading: clickType==='prevp'}" v-show="page>1">
+    <li id="prevp" v-bind:class="{ loading: clickType==='prevp'}" v-show="page>1 || clickType==='prevp'">
       <a class="pbtn" @click="changePage('prevp')">&lt;</a>
     </li>
     <li class>
       <a id="Tpagenum">Page {{page}}</a>
     </li>
-    <li id="nextp" v-bind:class="{ loading: clickType==='nextp'}">
+    <li id="nextp" v-bind:class="{ loading: clickType==='nextp'}" v-show="!enddingPage">
       <a class="pbtn" @click="changePage('nextp')">&gt;</a>
     </li>
   </div>
@@ -19,7 +19,8 @@
 export default {
   name: "Pagehelper",
   props: {
-    cpage: Number
+    cpage: Number,
+    enddingPage: Boolean
   },
   data() {
     return {
@@ -38,6 +39,7 @@ export default {
       } else if (type === "nextp") {
         this.page += 1;
       }
+      this.$emit('changePage', this.page);
     },
     commit() {
       this.clickType = '';

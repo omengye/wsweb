@@ -2,14 +2,6 @@ import { get } from 'axios';
 
 export default {
     axiosConfig: {
-        transformRequest: [function (data, headers) {
-            return data;
-        }],
-
-        transformResponse: [function (data) {
-            return data;
-        }],
-
         headers: { 'Authorization': '' },
 
         timeout: 5000,
@@ -20,17 +12,6 @@ export default {
     },
     getStorage : function() {
         return window.localStorage.getItem("access_token");
-    },
-    httpGet: function(url) {
-        let token = this.getStorage();
-
-        get(url, this.axiosConfig).then(function (response) {
-            console.log(response.data);
-            console.log(response.status);
-            console.log(response.statusText);
-            console.log(response.headers);
-            console.log(response.config);
-        });
     },
     getNowTime: function() {
         return Date.parse(new Date()) / 1000;
@@ -87,19 +68,21 @@ export default {
                 callback(response.data);
             }
         }).catch(function (error) {
-            debugger;
-            if (errorcallback) {
+            if (errorcallback && error.response) {
                 errorcallback(error.response);
+            }
+            if (error.response===undefined) {
+                console.log(error.message);
             }
         });
     },
     formatErrorMsg(error) {
-        if (error.statusText=='timeout') {
-            return "ERROR: Client Request Timeout";
+        if (error.code=="ECONNABORTED") {
+            return error.message;
         }
         else if (error.status == 401){
+            window.localStorage.setItem('access_token','');
             return "ERROR: No Authorization, Please Refresh Page";
-            localStorage.setItem('access_token','');
         }
         else if (error.status == 429) {
             return "ERROR: Too Many Requests";
