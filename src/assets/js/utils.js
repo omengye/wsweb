@@ -89,47 +89,24 @@ export default {
         }).catch(function (error) {
             debugger;
             if (errorcallback) {
-                errorcallback(error);
+                errorcallback(error.response);
             }
-            if (error.response) {
-                // The request was made and the server responded with a status code
-                // that falls out of the range of 2xx
-                console.log(error.response.data);
-                console.log(error.response.status);
-                console.log(error.response.headers);
-            } else if (error.request) {
-                // The request was made but no response was received
-                // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-                // http.ClientRequest in node.js
-                console.log(error.request);
-            } else {
-                // Something happened in setting up the request that triggered an Error
-                console.log('Error', error.message);
-            }
-            console.log(error.config);
         });
-
-
-
-        //     error: function (xhr, statusText, err) {
-        //         if (statusText == 'timeout') {
-        //             showInfoError("ERROR: Client Request Timeout");
-        //         }
-        //         else if (xhr.status == 401) {
-        //             showInfoError("ERROR: No Authorization, Please Refresh Page");
-        //             localStorage.setItem('access_token', '');
-        //         }
-        //         else if (xhr.status == 429) {
-        //             showInfoError("ERROR: Too Many Requests");
-        //         }
-        //         else if (xhr.status == 500) {
-        //             showInfoError("ERROR: Internal Server Error");
-        //         }
-        //         if (errorcallback) {
-        //             errorcallback(xhr.status);
-        //         }
-        //     }
-        // });
+    },
+    formatErrorMsg(error) {
+        if (error.statusText=='timeout') {
+            return "ERROR: Client Request Timeout";
+        }
+        else if (error.status == 401){
+            return "ERROR: No Authorization, Please Refresh Page";
+            localStorage.setItem('access_token','');
+        }
+        else if (error.status == 429) {
+            return "ERROR: Too Many Requests";
+        }
+        else if (error.status == 500) {
+            return "ERROR: Internal Server Error";
+        }
     }
 
 }

@@ -17,7 +17,7 @@
       </span>
     </div>
     <suggest v-if="showSuggest" v-bind:suggests="suggests" v-bind:chooseIdx="chooseIdx" v-on:chooseItem="chooseItem"/>
-    <results ref="searchRes" v-bind:sbtn="sbtn" v-on:update:sbtn="changeSbtn"/>
+    <results ref="searchRes" v-bind:searchText="searchText" v-bind:sbtn="sbtn" v-on:update:sbtn="changeSbtn"/>
     <div class="footer">
     </div>
   </div>
@@ -47,7 +47,7 @@ export default {
 
       // control sbtn
       sbtn: false,
-      sbtnBase: 'btn btn-primary btn-action btn-lg',
+      sbtnBase: 'btn btn-primary btn-action btn-lg'
     };
   },
   computed: {
@@ -123,6 +123,9 @@ export default {
               this.chooseIdx = -1;
               this.suggests = suggests;
             }
+          },
+          (error)=> {
+            this.$refs.searchRes.showErrorInfo(error);
           }
         );
 
