@@ -47,7 +47,6 @@ export default {
     },
     getToken: function(callback) {
         let storage = this.getStorage("access_token");
-        debugger;
         if (!storage) {
             this.requestToken(callback);
         }
@@ -68,19 +67,19 @@ export default {
             }
         }
     },
-    queryRequest: function(url, json, callback, errorcallback) {
+    queryRequest: function(url, callback, errorcallback) {
         let storage = JSON.parse(this.getStorage());
         let delay = this.getNowTime() - storage.tokentime;
         if (delay > storage.expire) {
             this.requestToken(function () {
-                this.queryData(url, json, callback, errorcallback)
+                this.queryData(url, callback, errorcallback)
             });
         }
         else {
-            this.queryData(url, json, callback, errorcallback);
+            this.queryData(url, callback, errorcallback);
         }
     },
-    queryData: function(url, json, callback, errorcallback) {
+    queryData: function(url, callback, errorcallback) {
         let storage = JSON.parse(this.getStorage());
         this.axiosConfig.headers.Authorization = "Bearer " + storage.token;
         get(url, this.axiosConfig).then((response)=>{
@@ -89,6 +88,9 @@ export default {
             }
         }).catch(function (error) {
             debugger;
+            if (errorcallback) {
+                errorcallback(error);
+            }
             if (error.response) {
                 // The request was made and the server responded with a status code
                 // that falls out of the range of 2xx

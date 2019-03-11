@@ -8,7 +8,7 @@
       <span class="input-group-btn" style="float:left;">
         <button
           id="sbtn"
-          class="btn btn-primary btn-action btn-lg"
+          v-bind:class="[sbtnBase, sbtn?'loading':'']"
           type="button"
           v-on:click="search"
         >
@@ -17,7 +17,9 @@
       </span>
     </div>
     <suggest v-if="showSuggest" v-bind:suggests="suggests" v-bind:chooseIdx="chooseIdx" v-on:chooseItem="chooseItem"/>
-    <results />
+    <results ref="searchRes" v-bind:sbtn="sbtn" v-on:update:sbtn="changeSbtn"/>
+    <div class="footer">
+    </div>
   </div>
 </template>
 
@@ -35,27 +37,32 @@ export default {
   },
   data() {
     return {
+      Utils: utils,
       searchText: '',
       suggestWait: false,
       showSuggest: false,
       suggests: [],
       skipSearch: false,
       chooseIdx: -1,
-      page: 0,
-      Utils: utils
+
+      // control sbtn
+      sbtn: false,
+      sbtnBase: 'btn btn-primary btn-action btn-lg',
     };
   },
   computed: {
   },
   methods: {
     search() {
-      console.log('search');
       this.showSuggest = false;
-
+      if (this.searchText!='') {
+        this.sbtn = true;
+        this.$refs.searchRes.search(this.searchText); 
+      }
     },
     filterSuggest(val) {
       let res = [];
-      let datas = JSON.parse(val);
+      let datas = val; //JSON.parse(val);
       if (datas.length<2 || !datas || !(datas instanceof Array) || !datas[1] || !(datas[1] instanceof Array)) {
         return res;
       }
@@ -98,6 +105,9 @@ export default {
           this.chooseIdx += 1;
         }
       }
+    },
+    changeSbtn(data) {
+      this.sbtn = data;
     }
   },
   watch: {
@@ -105,14 +115,16 @@ export default {
       if (this.searchText!='' && !this.suggestWait && !this.skipSearch) {
         this.suggestWait = true;
 
-        let str = '["vue 搜索提",[["vue 搜索提交",33,[160],{"a":"vue\u0026nbsp;","b":"搜索提交"}],["vue 搜索提取",33,[160],{"a":"vue\u0026nbsp;","b":"搜索提取"}],["vue 搜索提醒",33,[160],{"a":"vue\u0026nbsp;","b":"搜索提醒"}]],{"i":"vue 搜索提","j":"nv","k":1,"q":"BWNw3IGYfkihdCnkl2xKfnqBqEQ","t":{"bpc":false,"tlw":false}}]';
-
-        let suggests = this.filterSuggest(str);
-        if (suggests.length > 0) {
-          this.showSuggest = true;
-          this.chooseIdx = -1;
-          this.suggests = suggests;
-        }
+        utils.queryRequest('/gcs/api/suggest?q='+encodeURI(this.searchText),
+          (data)=>{
+            let suggests = this.filterSuggest(data);
+            if (suggests.length > 0) {
+              this.showSuggest = true;
+              this.chooseIdx = -1;
+              this.suggests = suggests;
+            }
+          }
+        );
 
         setTimeout(() => {
           this.suggestWait = false;
@@ -123,7 +135,8 @@ export default {
     }
   },
   mounted() {
-    this.$refs['sinput'].focus()
+    this.$refs['sinput'].focus();
+    utils.getToken();
   },
   created() {
   }
