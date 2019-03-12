@@ -16,31 +16,26 @@ export default {
   name: 'Suggest',
   data() {
     return {
-      cIdx: this.chooseIdx
+      cIdx: -1,
     }
   },
   props: {
     suggests: Array,
-    chooseIdx: Number
   },
   methods: {
     menter(idx) {
-      this.cIdx = idx
+      this.cIdx = idx;
+      this.$emit('chooseItem', {item: this.suggests[idx], click: false, cidx: idx});
     },
     clickItem(idx) {
-      this.$emit('chooseItem', {item: this.suggests[idx], click: true});
+      this.$emit('chooseItem', {item: this.suggests[idx], click: true, cidx: idx});
     }
   },
   computed: {
 
   },
   watch: {
-    chooseIdx() {
-      if (this.suggests.length>0) {
-        this.cIdx = this.chooseIdx;
-        this.$emit('chooseItem', {item: this.suggests[this.cIdx], click: false});
-      }
-    }
+
   }
 }
 </script>

@@ -16,7 +16,7 @@
         </button>
       </span>
     </div>
-    <suggest v-if="showSuggest" v-bind:suggests="suggests" v-bind:chooseIdx="chooseIdx" v-on:chooseItem="chooseItem"/>
+    <suggest ref="suggestRes" v-if="showSuggest" v-bind:suggests="suggests" v-on:chooseItem="chooseItem"/>
     <results ref="searchRes" v-bind:searchText="searchText" v-bind:sbtn="sbtn" v-on:update:sbtn="changeSbtn"/>
     <div class="footer">
     </div>
@@ -44,7 +44,6 @@ export default {
       suggests: [],
       skipSearch: false,
       chooseIdx: -1,
-
       // control sbtn
       sbtn: false,
       sbtnBase: 'btn btn-primary btn-action btn-lg'
@@ -80,7 +79,13 @@ export default {
     chooseItem(data) {
       if (this.suggests.length > 0) {
         this.skipSearch = true;
-        this.searchText = data.item;
+        if (data.item) {
+          this.searchText = data.item;
+          this.chooseIdx = data.cidx;
+        }
+        else {
+          this.showSuggest = false;
+        }
         if (data.click) {
           this.search();
         }
@@ -94,6 +99,7 @@ export default {
         else {
           this.chooseIdx -= 1;
         }
+        this.$refs.suggestRes.menter(this.chooseIdx);
       }
     },
     itemDown() {
@@ -104,6 +110,7 @@ export default {
         else {
           this.chooseIdx += 1;
         }
+        this.$refs.suggestRes.menter(this.chooseIdx);
       }
     },
     changeSbtn(data) {

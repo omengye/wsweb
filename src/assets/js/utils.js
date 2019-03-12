@@ -73,11 +73,12 @@ export default {
             }
             if (error.response===undefined) {
                 console.log(error.message);
+                errorcallback({code: "TIMEOUT", message: error.message});
             }
         });
     },
     formatErrorMsg(error) {
-        if (error.code=="ECONNABORTED") {
+        if (error.code=="ECONNABORTED" || error.code=="TIMEOUT") {
             return error.message;
         }
         else if (error.status == 401){
