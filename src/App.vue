@@ -118,6 +118,7 @@ export default {
     },
     changeSbtn(data) {
       this.sbtn = data;
+      this.showSuggest = false;
     }
   },
   watch: {
@@ -135,7 +136,8 @@ export default {
             }
           },
           (error)=> {
-            this.$refs.searchRes.showErrorInfo(error);
+            // this.$refs.searchRes.showErrorInfo(error);
+            this.showSuggest = false;
           }
         );
 
