@@ -23,9 +23,14 @@ export default {
     suggests: Array,
   },
   methods: {
-    menter(idx) {
+    menter(idx, keyType) {
       this.cIdx = idx;
-      this.$emit('chooseItem', {item: this.suggests[idx], click: false, cidx: idx});
+      if (keyType) {
+        this.$emit('chooseItem', {item: this.suggests[idx], click: false, cidx: idx, key: true});
+      }
+      else {
+        this.$emit('chooseItem', {item: this.suggests[idx], click: false, cidx: idx, key: false});
+      }
     },
     clickItem(idx) {
       this.$emit('chooseItem', {item: this.suggests[idx], click: true, cidx: idx});

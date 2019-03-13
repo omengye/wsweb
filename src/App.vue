@@ -79,8 +79,11 @@ export default {
     chooseItem(data) {
       if (this.suggests.length > 0) {
         this.skipSearch = true;
-        if (data.item) {
+        if (data.item && (data.click||data.key)) {
           this.searchText = data.item;
+          this.chooseIdx = data.cidx;
+        }
+        else if (data.item) {
           this.chooseIdx = data.cidx;
         }
         else {
@@ -99,7 +102,7 @@ export default {
         else {
           this.chooseIdx -= 1;
         }
-        this.$refs.suggestRes.menter(this.chooseIdx);
+        this.$refs.suggestRes.menter(this.chooseIdx, true);
       }
     },
     itemDown() {
@@ -110,7 +113,7 @@ export default {
         else {
           this.chooseIdx += 1;
         }
-        this.$refs.suggestRes.menter(this.chooseIdx);
+        this.$refs.suggestRes.menter(this.chooseIdx, true);
       }
     },
     changeSbtn(data) {
