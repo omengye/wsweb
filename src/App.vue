@@ -1,4 +1,5 @@
 <template>
+<div class="wrapper">
   <div id="continner" v-on:click="hideSuggest">
     <div id="search" class="input-group">
       <input id="search_txt" type="text" class="form-control" placeholder="Search for..." 
@@ -18,9 +19,13 @@
     </div>
     <suggest ref="suggestRes" v-if="showSuggest" v-bind:suggests="suggests" v-on:chooseItem="chooseItem"/>
     <results ref="searchRes" v-bind:searchText="searchText" v-bind:sbtn="sbtn" v-on:update:sbtn="changeSbtn"/>
-    <div class="footer">
-    </div>
   </div>
+  <div class="footer">
+    <span class="copyright">
+      Copyright © 2019. <a title="丝绸之路">The Silk Road</a>
+    </span>
+  </div>
+</div>
 </template>
 
 <script>

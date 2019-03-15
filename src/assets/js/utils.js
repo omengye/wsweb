@@ -17,14 +17,18 @@ export default {
         return Date.parse(new Date()) / 1000;
     },
     requestToken : function(callback) {
-        get('/user/genToken', this.axiosConfig).then((response)=>{
-            let data = response.data;
-            data.tokentime = this.getNowTime();
-            window.localStorage.setItem("access_token", JSON.stringify(data));
-            if (callback) {
-                callback();
-            }
-        })
+        get('/user/genToken', this.axiosConfig)
+            .then((response)=>{
+                let data = response.data;
+                data.tokentime = this.getNowTime();
+                window.localStorage.setItem("access_token", JSON.stringify(data));
+                if (callback) {
+                    callback();
+                }
+            })
+            .catch((error)=>{
+                this.formatErrorMsg(error);
+            })
     },
     getToken: function(callback) {
         let storage = this.getStorage("access_token");
