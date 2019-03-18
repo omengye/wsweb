@@ -28,7 +28,6 @@ import Pagehelper from "./Pagehelper.vue";
 export default {
   name: "Results",
   props: {
-    searchText: String,
     sbtn: Boolean
   },
   components: {
@@ -36,6 +35,7 @@ export default {
   },
   data() {
     return {
+      searchText: '',
       showInfo: false,
       page: 1,
       rowNum: 10,
@@ -75,7 +75,10 @@ export default {
         this.enddingPage = false;
       }
     },
-    search(spage) {
+    search(spage, searchText) {
+      if (searchText) {
+        this.searchText = searchText;
+      }
       if (spage) {
         this.page = spage;
       }
@@ -121,6 +124,8 @@ export default {
       this.page = p;
       this.search();
     }
+  },
+  watch: {
   }
 };
 </script>

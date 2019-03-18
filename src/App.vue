@@ -18,12 +18,15 @@
       </span>
     </div>
     <suggest ref="suggestRes" v-if="showSuggest" v-bind:suggests="suggests" v-on:chooseItem="chooseItem"/>
-    <results ref="searchRes" v-bind:searchText="searchText" v-bind:sbtn="sbtn" v-on:update:sbtn="changeSbtn"/>
+    <results ref="searchRes" v-bind:sbtn="sbtn" v-on:update:sbtn="changeSbtn"/>
   </div>
   <div class="footer">
-    <span class="copyright">
-      Copyright © 2019. <a title="丝绸之路">The Silk Road</a>
-    </span>
+    <div class="ipaddr">
+      {{ipAddr}}
+    </div>
+    <div class="copyright">
+      © 2019. <a class="tooltip tooltip-top" data-tooltip="丝绸之路">Silk Road</a>
+    </div>
   </div>
 </div>
 </template>
@@ -51,7 +54,8 @@ export default {
       chooseIdx: -1,
       // control sbtn
       sbtn: false,
-      sbtnBase: 'btn btn-primary btn-action btn-lg'
+      sbtnBase: 'btn btn-primary btn-action btn-lg',
+      ipAddr: ''
     };
   },
   computed: {
@@ -61,7 +65,7 @@ export default {
       this.showSuggest = false;
       if (this.searchText!='') {
         this.sbtn = true;
-        this.$refs.searchRes.search(1);
+        this.$refs.searchRes.search(1, this.searchText);
       }
     },
     filterSuggest(val) {
@@ -156,7 +160,12 @@ export default {
   },
   mounted() {
     this.$refs['sinput'].focus();
-    utils.getToken();
+    utils.getToken(()=>{
+      if (window.localStorage.access_token) {
+        this.ipAddr = "Your IP: " + JSON.parse(window.localStorage.access_token).ip;
+      }
+      
+    });
   },
   created() {
   }
