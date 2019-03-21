@@ -11,7 +11,7 @@ html, body {
 
 b {
     color: rgba(255,0,0,.57);
-    font-weight: 500
+    font-weight: 500;
 }
 
 #infos {
@@ -22,64 +22,65 @@ b {
     width: 80%;
     /* min-height: calc(100vh - 40px); */
     position: relative;
-    margin-left: 10%
+    margin-left: 10%;
 }
 
 #search {
     width: 80%;
     padding-top: 5%;
-    margin-left: 10%
+    margin-left: 10%;
 }
 
 #search_txt {
     width: 40%;
-    height: 40px
+    height: 40px;
 }
 
 #sbtn {
-    height: 40px
+    height: 40px;
 }
 
 #result {
     width: 80%;
     padding-top: 1%;
     margin-left: 10%;
-    z-index: 0
+    z-index: 0;
 }
 
 .item {
-    margin-top: 2.5%
+    margin-top: 2.5%;
 }
 
 .title {
     font-size: 18px;
     margin-top: 10px;
-    margin-bottom: 1px
+    margin-bottom: 1px;
+    word-break: break-word;
 }
 
 .formattedUrl {
     color: #006621;
-    word-wrap: break-word
+    word-wrap: break-word;
 }
 
 .htmlSnippet {
     word-wrap: break-word;
-    word-break: normal
+    word-break: normal;
 }
 
 .htmlSnippet b {
     color: rgba(255,0,0,.57);
-    word-break: break-all
+    word-break: break-all;
 }
 
 .link {
-    color: #609
+    color: #609;
 }
 
 #pageneration {
     margin-top: 20px;
     height: 70px;
-    float: left
+    float: left;
 }
 
 #suggest {
@@ -90,15 +91,15 @@ b {
     border-width: 1px;
     border-style: solid;
     position: absolute;
-    background-color: #fff
+    background-color: #fff;
 }
 
 .sitem {
-    height: 34px
+    height: 34px;
 }
 
 .selitem {
-    background-color: #add8e6
+    background-color: #add8e6;
 }
 
 .sval {
@@ -106,7 +107,7 @@ b {
     padding-left: 5px;
     text-overflow: ellipsis;
     overflow: hidden;
-    white-space: nowrap
+    white-space: nowrap;
 }
 
 @media screen and (max-width:550px) {
