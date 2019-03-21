@@ -55,7 +55,8 @@ export default {
       // control sbtn
       sbtn: false,
       sbtnBase: 'btn btn-primary btn-action btn-lg',
-      ipAddr: ''
+      ipAddr: '',
+      finTime: 0
     };
   },
   computed: {
@@ -70,7 +71,7 @@ export default {
     },
     filterSuggest(val) {
       let res = [];
-      let datas = val; //JSON.parse(val);
+      let datas = val;
       if (datas.length<2 || !datas || !(datas instanceof Array) || !datas[1] || !(datas[1] instanceof Array)) {
         return res;
       }
@@ -126,6 +127,7 @@ export default {
       }
     },
     changeSbtn(data) {
+      this.finTime = new Date();
       this.sbtn = data;
       this.showSuggest = false;
     }
@@ -134,9 +136,15 @@ export default {
     searchText() {
       if (this.searchText!='' && !this.suggestWait && !this.skipSearch) {
         this.suggestWait = true;
+        this.finTime = 0;
+        this.showSuggest = false;
 
         utils.queryRequest('/gcs/api/suggest?q='+encodeURI(this.searchText),
           (data)=>{
+            if (this.searchText=='' || this.sbtn || (this.finTime>0 && new Date()>this.finTime)) {
+              this.showSuggest = false;
+              return;
+            }
             let suggests = this.filterSuggest(data);
             if (suggests.length > 0) {
               this.showSuggest = true;
@@ -144,7 +152,7 @@ export default {
               this.suggests = suggests;
             }
           },
-          (error)=> {
+          ()=> {
             // this.$refs.searchRes.showErrorInfo(error);
             this.showSuggest = false;
           }
@@ -152,7 +160,7 @@ export default {
 
         setTimeout(() => {
           this.suggestWait = false;
-        }, 600);
+        }, 500);
       }
       
       this.skipSearch = false;
@@ -164,7 +172,6 @@ export default {
       if (window.localStorage.access_token) {
         this.ipAddr = "Your IP: " + JSON.parse(window.localStorage.access_token).ip;
       }
-      
     });
   },
   created() {

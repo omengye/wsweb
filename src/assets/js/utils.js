@@ -10,13 +10,13 @@ export default {
 
         responseEncoding: 'utf8'
     },
-    getStorage : function() {
+    getStorage() {
         return window.localStorage.getItem("access_token");
     },
-    getNowTime: function() {
+    getNowTime() {
         return Date.parse(new Date()) / 1000;
     },
-    requestToken : function(callback) {
+    requestToken(callback) {
         get('/user/genToken', this.axiosConfig)
             .then((response)=>{
                 let data = response.data;
@@ -30,7 +30,7 @@ export default {
                 this.formatErrorMsg(error);
             })
     },
-    getToken: function(callback) {
+    getToken(callback) {
         let storage = this.getStorage("access_token");
         if (!storage) {
             this.requestToken(callback);
@@ -52,11 +52,19 @@ export default {
             }
         }
     },
-    queryRequest: function(url, callback, errorcallback) {
-        let storage = JSON.parse(this.getStorage());
-        let delay = this.getNowTime() - storage.tokentime;
-        if (delay > storage.expire) {
-            this.requestToken(function () {
+    queryRequest(url, callback, errorcallback) {
+        let tokenValid = true;
+        if (this.getStorage()) {
+            let storage = JSON.parse(this.getStorage());
+            let delay = this.getNowTime() - storage.tokentime;
+            tokenValid = delay > storage.expire;
+        }
+        else {
+            tokenValid = false;
+        }
+
+        if (!tokenValid) {
+            this.getToken(() => {
                 this.queryData(url, callback, errorcallback)
             });
         }
@@ -64,19 +72,24 @@ export default {
             this.queryData(url, callback, errorcallback);
         }
     },
-    queryData: function(url, callback, errorcallback) {
+    queryData(url, callback, errorcallback, retry) {
         let storage = JSON.parse(this.getStorage());
         this.axiosConfig.headers.Authorization = "Bearer " + storage.token;
         get(url, this.axiosConfig).then((response)=>{
             if (callback) {
                 callback(response.data);
             }
-        }).catch(function (error) {
-            if (errorcallback && error.response) {
+        }).catch((error) => {
+            if (errorcallback && error.response 
+                    && error.response.status == 401 && !retry) {
+                this.getToken(() => {
+                    this.queryData(url, callback, errorcallback, true);
+                });
+            }
+            else if (errorcallback && error.response) {
                 errorcallback(error.response);
             }
             if (error.response===undefined) {
-                console.log(error.message);
                 errorcallback({code: "TIMEOUT", message: error.message});
             }
         });
