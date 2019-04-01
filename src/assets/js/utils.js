@@ -61,6 +61,7 @@ export default {
         }
 
         if (!tokenValid) {
+            window.localStorage.removeItem("access_token");
             this.getToken(() => {
                 this.queryData(url, callback, errorcallback)
             });
@@ -79,6 +80,7 @@ export default {
         }).catch((error) => {
             if (errorcallback && error.response 
                     && error.response.status == 401 && !retry) {
+                window.localStorage.removeItem("access_token");
                 this.getToken(() => {
                     this.queryData(url, callback, errorcallback, true);
                 });
