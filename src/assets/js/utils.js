@@ -31,7 +31,7 @@ export default {
             })
     },
     getToken(callback) {
-        let storage = this.getStorage("access_token");
+        let storage = this.getStorage();
         if (!storage) {
             this.requestToken(callback);
         }
@@ -48,22 +48,20 @@ export default {
             }
             catch (e) {
                 window.localStorage.removeItem("access_token");
-                this.requestToken(callback);
+                throw e;
             }
         }
     },
     queryRequest(url, callback, errorcallback) {
-        let tokenValid = true;
+        let tokenValid = false;
         if (this.getStorage()) {
             let storage = JSON.parse(this.getStorage());
             let delay = this.getNowTime() - storage.tokentime;
-            tokenValid = delay > storage.expire;
-        }
-        else {
-            tokenValid = false;
+            tokenValid = delay < storage.expire;
         }
 
         if (!tokenValid) {
+            window.localStorage.removeItem("access_token");
             this.getToken(() => {
                 this.queryData(url, callback, errorcallback)
             });
@@ -82,6 +80,7 @@ export default {
         }).catch((error) => {
             if (errorcallback && error.response 
                     && error.response.status == 401 && !retry) {
+                window.localStorage.removeItem("access_token");
                 this.getToken(() => {
                     this.queryData(url, callback, errorcallback, true);
                 });
