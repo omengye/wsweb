@@ -1,12 +1,42 @@
 <template>
   <div id="result">
-    <div id="infos" v-show="showInfo">
-      <div v-if="serror">{{errorMsg}}</div>
-      <div v-else>找到约
-        <span id="stotal">{{stotal}}</span>条记录 (用时
-        <span id="stime">{{stime}}</span>秒)
+    <div id="tools">
+      <div id="infos" v-show="!showMenu && showInfo">
+        <div v-if="serror">{{errorMsg}}</div>
+        <div v-else>找到约
+          <span id="stotal">{{stotal}}</span>条记录 (用时
+          <span id="stime">{{stime}}</span>秒)
+        </div>
+      </div>
+      <div id="selMenu" v-show="showMenu">
+        <div class="form-group menuForm">
+          <select v-model="searchInfo.lr" class="form-select select-sm">
+            <option value="-">不限语言</option>
+            <option value="lang_en">English</option>
+            <option value="lang_zh-CN">简体中文</option>
+            <option value="lang_zh-TW">繁体中文</option>
+          </select>
+        </div>
+        <div class="form-group menuForm menuFormDest">
+          <select v-model="searchInfo.dateRestrict" class="form-select select-sm">
+            <option value="-">不限时间</option>
+            <option value="d1">过去1天</option>
+            <option value="w1">过去1周</option>
+            <option value="m1">过去1月</option>
+            <option value="y1">过去1年</option>
+          </select>
+        </div>
+        <div class="form-group menuForm menuFormDest">
+          <select v-model="searchInfo.sort" class="form-select select-sm">
+            <option value="-">相关排序</option>
+            <option value="date">时间排序</option>
+          </select>
+        </div>
       </div>
     </div>
+    <button id="menu" type="button" v-on:click="menu">
+      <i class="icon icon-more-horiz"></i>
+    </button>
     <div id="items">
       <div class="item" v-for="(item, idx) in items" :key="idx">
         <div class="title">
@@ -17,7 +47,7 @@
       </div>
     </div>
     <div v-show="showPage" style="margin-top:10px;">
-      <pagehelper ref="pager" v-bind:enddingPage="enddingPage" v-bind:cpage="page" v-on:changePage="changePage"/>
+      <pagehelper ref="pager" v-bind:enddingPage="enddingPage" v-bind:cpage="searchInfo.page" v-on:changePage="changePage"/>
     </div>
   </div>
 </template>
@@ -37,7 +67,7 @@ export default {
     return {
       searchText: '',
       showInfo: false,
-      page: 1,
+      searchInfo: {},
       rowNum: 10,
       serror: false,
       showPage: false,
@@ -46,7 +76,8 @@ export default {
       items: [],
       errorMsg: "",
       maxPage: 10,
-      enddingPage: false
+      enddingPage: false,
+      showMenu: false
     };
   },
   methods: {
@@ -64,29 +95,30 @@ export default {
       this.errorInfo(utils.formatErrorMsg(error));
     },
     startNum() {
-      return (this.page - 1) * this.rowNum + 1;
+      return (this.searchInfo.page - 1) * this.rowNum + 1;
     },
     isEnddingPage() {
       if ((this.maxPage-1)*this.rowNum < this.startNum()
-        || this.page >= 1 && this.items.length < this.rowNum) {
+        || this.searchInfo.page >= 1 && this.items.length < this.rowNum) {
           this.enddingPage = true;
       }
       else {
         this.enddingPage = false;
       }
     },
-    search(spage, searchText) {
+    search(searchInfo, searchText) {
+      if (searchInfo) {
+        this.searchInfo = searchInfo;
+      }
       if (searchText) {
         this.searchText = searchText;
       }
-      if (spage) {
-        this.page = spage;
+      else if (!searchText && !this.searchText){
+        return;
       }
+      this.setBrowerUrl();
       utils.queryRequest(
-        "/gcs/api/g?q=" +
-          encodeURI(this.searchText) +
-          "&start=" +
-          this.startNum(),
+        "/gcs/api/g" + this.genSearchUrl(),
         data => {
           this.serror = false;
           this.$emit("update:sbtn", false);
@@ -105,7 +137,7 @@ export default {
             this.items = data.items;
           }
 
-          if (this.items.length == this.rowNum && this.page > 0) {
+          if (this.items.length == this.rowNum && this.searchInfo.page > 0) {
             this.showPage = true;
           }
 
@@ -121,8 +153,33 @@ export default {
       );
     },
     changePage(p) {
-      this.page = p;
+      this.searchInfo.page = p;
       this.search();
+    },
+    setBrowerUrl() {
+      var str = "/?q="+this.searchText;
+      for (var i in this.searchInfo) {
+        if (this.searchInfo[i]) {
+          str += "&"+i+"="+this.searchInfo[i];
+        }
+      }
+      window.history.replaceState(null, null, str);
+    },
+    genSearchUrl() {
+      var str = "?num=10&q="+encodeURI(this.searchText);
+      for (var i in this.searchInfo) {
+        if (this.searchInfo[i] && this.searchInfo[i]!=='-') {
+          if (i === "page") {
+            str += "&start="+this.startNum();
+            continue;
+          }
+          str += "&"+i+"="+this.searchInfo[i];
+        }
+      }
+      return str;
+    },
+    menu() {
+      this.showMenu = !this.showMenu;
     }
   },
   watch: {

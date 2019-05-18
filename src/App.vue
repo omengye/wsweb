@@ -56,7 +56,14 @@ export default {
       sbtn: false,
       sbtnBase: 'btn btn-primary btn-action btn-lg',
       ipAddr: '',
-      finTime: 0
+      finTime: 0,
+      searchInfo: {
+        sort: '-',
+        page: 1,
+        lr: '-',
+        dateRestrict: '-'
+      },
+      queryString: require('query-string')
     };
   },
   computed: {
@@ -64,10 +71,10 @@ export default {
   methods: {
     search() {
       this.showSuggest = false;
-      if (this.searchText!='') {
+      if (this.searchText!=='') {
         this.sbtn = true;
-        this.$refs.searchRes.search(1, this.searchText);
       }
+      this.$refs.searchRes.search(this.searchInfo, this.searchText);
     },
     filterSuggest(val) {
       let res = [];
@@ -130,6 +137,21 @@ export default {
       this.finTime = new Date();
       this.sbtn = data;
       this.showSuggest = false;
+    },
+    getParamFromUrl() {
+      const parsed = this.queryString.parse(location.search);
+      for (var i in this.searchInfo) {
+        if (parsed[i]) {
+          if (i === "page") {
+            this.searchInfo.page = parseInt(parsed.page);
+            continue;
+          }
+          this.searchInfo[i] = parsed[i];
+        }
+      }
+      if (parsed.q) {
+        this.searchText = parsed.q;
+      }
     }
   },
   watch: {
@@ -171,6 +193,9 @@ export default {
     utils.getToken(()=>{
       if (window.localStorage.access_token) {
         this.ipAddr = "Your IP: " + JSON.parse(window.localStorage.access_token).ip;
+
+        this.getParamFromUrl();
+        this.search();
       }
     });
   },

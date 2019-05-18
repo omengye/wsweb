@@ -16,11 +16,11 @@ b {
 
 #infos {
     font-size: 14px;
+    margin-top: 3px;
 }
 
 #continner {
     width: 80%;
-    /* min-height: calc(100vh - 40px); */
     position: relative;
     margin-left: 10%;
 }
@@ -94,6 +94,26 @@ b {
     background-color: #fff;
 }
 
+#tools {
+    width: calc(40% + 6px);
+    height: 30px;
+    float: left;
+}
+
+#menu {
+    border: none;
+    background-color: white;
+}
+
+.menuForm {
+    width: 87px;
+    float: left;
+}
+
+.menuFormDest {
+    margin-left: 3px;
+}
+
 .sitem {
     height: 34px;
 }
@@ -110,13 +130,63 @@ b {
     white-space: nowrap;
 }
 
-@media screen and (max-width:550px) {
+@media screen and (max-width:1020px) {
     #search_txt {
-        width: 80%
+        width: 85%
+    }
+
+    #continner {
+        width: 80%;
+        margin-left: 5%;
+    }
+
+    #search {
+        width: 80%;
+        margin-left: 5%;
+    }
+
+    #result {
+        width: 80%;
+        margin-left: 5%;
     }
 
     #suggest {
-        width: calc(64% + 40px)
+        margin-left: 5%;
+        width: calc(68% + 40px)
+    }
+
+    #tools {
+        width: calc(85% + 6px);
+    }
+}
+
+@media screen and (max-width:550px) {
+    #search_txt {
+        width: 85%
+    }
+
+    #continner {
+        width: 90%;
+        margin-left: 5%;
+    }
+
+    #search {
+        width: 90%;
+        margin-left: 5%;
+    }
+
+    #result {
+        width: 90%;
+        margin-left: 5%;
+    }
+
+    #suggest {
+        margin-left: 5%;
+        width: calc(76% + 40px)
+    }
+
+    #tools {
+        width: calc(85% + 6px);
     }
 }
 
