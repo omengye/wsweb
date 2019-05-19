@@ -2,10 +2,13 @@
 <div class="wrapper">
   <div id="continner" v-on:click="hideSuggest">
     <div id="search" class="input-group">
-      <input id="search_txt" type="text" class="form-control" placeholder="Search for..." 
-        ref="sinput" 
-        v-model="searchText" v-on:keyup.enter="search"
-        v-on:keyup.up="itemUp" v-on:keyup.down="itemDown">
+      <div class="has-icon-right">
+        <input id="search_txt" type="text" class="form-control form-input" placeholder="Search for..." 
+          ref="sinput" 
+          v-model="searchText" v-on:keyup.enter="search"
+          v-on:keyup.up="itemUp" v-on:keyup.down="itemDown">
+        <i class="form-icon icon icon-cross" @click="cleanText"></i>
+      </div>
       <span class="input-group-btn" style="float:left;">
         <button
           id="sbtn"
@@ -156,6 +159,9 @@ export default {
       if (parsed.q) {
         this.searchText = parsed.q;
       }
+    },
+    cleanText() {
+      this.searchText = "";
     }
   },
   watch: {

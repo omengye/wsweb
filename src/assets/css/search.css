@@ -31,8 +31,12 @@ b {
     margin-left: 10%;
 }
 
-#search_txt {
+.has-icon-right {
     width: 40%;
+}
+
+#search_txt {
+    width: 100%;
     height: 40px;
 }
 
@@ -95,7 +99,7 @@ b {
 }
 
 #tools {
-    width: calc(40% + 6px);
+    width: 40%;
     height: 30px;
     float: left;
 }
@@ -103,6 +107,7 @@ b {
 #menu {
     border: none;
     background-color: white;
+    width: 38px;
 }
 
 .menuForm {
@@ -141,8 +146,12 @@ b {
 }
 
 @media screen and (max-width:1020px) {
+    .has-icon-right {
+        width: calc(100% - 40px);
+    }
+
     #search_txt {
-        width: 85%
+        width: 100%
     }
 
     #continner {
@@ -162,17 +171,21 @@ b {
 
     #suggest {
         margin-left: 5%;
-        width: calc(68% + 40px)
+        width: calc(80% - 40px);
     }
 
     #tools {
-        width: calc(85% + 6px);
+        width: calc(100% - 40px);
     }
 }
 
 @media screen and (max-width:550px) {
+    .has-icon-right {
+        width: calc(100% - 40px);
+    }
+
     #search_txt {
-        width: 85%
+        width: 100%
     }
 
     #continner {
@@ -192,11 +205,11 @@ b {
 
     #suggest {
         margin-left: 5%;
-        width: calc(76% + 40px)
+        width: 90%;
     }
 
     #tools {
-        width: calc(85% + 6px);
+        width: calc(100% - 40px);
     }
 }
 
