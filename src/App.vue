@@ -140,8 +140,7 @@ export default {
     },
     changeSText(data) {
       this.searchText = data;
-      this.showSuggest = false;
-      this.suggestWait = true;
+      this.changeSbtn(true);
     },
     getParamFromUrl() {
       const parsed = this.queryString.parse(location.search);
