@@ -1,42 +1,50 @@
 <template>
   <div id="result">
-    <div id="tools">
-      <div id="infos" v-show="!showMenu && showInfo">
-        <div v-if="serror">{{errorMsg}}</div>
-        <div v-else>找到约
-          <span id="stotal">{{stotal}}</span>条记录 (用时
-          <span id="stime">{{stime}}</span>秒)
+    <div>    
+      <div id="tools">
+        <div id="infos" v-show="!showMenu && showInfo">
+          <div v-if="serror">{{errorMsg}}</div>
+          <div v-else>找到约
+            <span id="stotal">{{stotal}}</span>条记录 (用时
+            <span id="stime">{{stime}}</span>秒)
+          </div>
+        </div>
+        <div id="selMenu" v-show="showMenu">
+          <div class="form-group menuForm">
+            <select v-model="searchInfo.lr" class="form-select select-sm">
+              <option value="-">不限语言</option>
+              <option value="lang_en">English</option>
+              <option value="lang_zh-CN">简体中文</option>
+              <option value="lang_zh-TW">繁体中文</option>
+            </select>
+          </div>
+          <div class="form-group menuForm menuFormDest">
+            <select v-model="searchInfo.dateRestrict" class="form-select select-sm">
+              <option value="-">不限时间</option>
+              <option value="d1">过去1天</option>
+              <option value="w1">过去1周</option>
+              <option value="m1">过去1月</option>
+              <option value="y1">过去1年</option>
+            </select>
+          </div>
+          <div class="form-group menuForm menuFormDest">
+            <select v-model="searchInfo.sort" class="form-select select-sm">
+              <option value="-">相关排序</option>
+              <option value="date">时间排序</option>
+            </select>
+          </div>
         </div>
       </div>
-      <div id="selMenu" v-show="showMenu">
-        <div class="form-group menuForm">
-          <select v-model="searchInfo.lr" class="form-select select-sm">
-            <option value="-">不限语言</option>
-            <option value="lang_en">English</option>
-            <option value="lang_zh-CN">简体中文</option>
-            <option value="lang_zh-TW">繁体中文</option>
-          </select>
-        </div>
-        <div class="form-group menuForm menuFormDest">
-          <select v-model="searchInfo.dateRestrict" class="form-select select-sm">
-            <option value="-">不限时间</option>
-            <option value="d1">过去1天</option>
-            <option value="w1">过去1周</option>
-            <option value="m1">过去1月</option>
-            <option value="y1">过去1年</option>
-          </select>
-        </div>
-        <div class="form-group menuForm menuFormDest">
-          <select v-model="searchInfo.sort" class="form-select select-sm">
-            <option value="-">相关排序</option>
-            <option value="date">时间排序</option>
-          </select>
-        </div>
+      <button id="menu" type="button" v-on:click="menu">
+        <i class="icon icon-more-horiz"></i>
+      </button>
+    </div>
+    <div class="correct-spelling" v-show="spelling">
+      <div id="spelling">
+        <span>您是不是要找:</span> 
+        <a @click="corrQuery">{{correctedQuery}}</a>
       </div>
     </div>
-    <button id="menu" type="button" v-on:click="menu">
-      <i class="icon icon-more-horiz"></i>
-    </button>
     <div id="items">
       <div class="item" v-for="(item, idx) in items" :key="idx">
         <div class="title">
@@ -77,7 +85,9 @@ export default {
       errorMsg: "",
       maxPage: 10,
       enddingPage: false,
-      showMenu: false
+      showMenu: false,
+      spelling: false,
+      correctedQuery: ''
     };
   },
   methods: {
@@ -141,6 +151,14 @@ export default {
             this.showPage = true;
           }
 
+          if (data.spelling && data.spelling.correctedQuery) {
+            this.spelling = true;
+            this.correctedQuery = data.spelling.correctedQuery;
+          }
+          else {
+            this.spelling = false;
+          }
+
           this.isEnddingPage();
           this.$refs.pager.commit();
           window.scrollTo(0, 0);
@@ -180,6 +198,12 @@ export default {
     },
     menu() {
       this.showMenu = !this.showMenu;
+    },
+    corrQuery() {
+      this.searchText = this.correctedQuery;
+      this.searchInfo.page = 1;
+      this.$emit("update:searchText", this.searchText);
+      this.search();
     }
   },
   watch: {

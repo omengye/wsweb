@@ -18,7 +18,7 @@
       </span>
     </div>
     <suggest ref="suggestRes" v-if="showSuggest" v-bind:suggests="suggests" v-on:chooseItem="chooseItem"/>
-    <results ref="searchRes" v-bind:sbtn="sbtn" v-on:update:sbtn="changeSbtn"/>
+    <results ref="searchRes" v-bind:sbtn="sbtn" v-on:update:sbtn="changeSbtn" v-on:update:searchText="changeSText"/>
   </div>
   <div class="footer">
     <div class="ipaddr">
@@ -137,6 +137,11 @@ export default {
       this.finTime = new Date();
       this.sbtn = data;
       this.showSuggest = false;
+    },
+    changeSText(data) {
+      this.searchText = data;
+      this.showSuggest = false;
+      this.suggestWait = true;
     },
     getParamFromUrl() {
       const parsed = this.queryString.parse(location.search);

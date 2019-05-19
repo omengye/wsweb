@@ -130,6 +130,16 @@ b {
     white-space: nowrap;
 }
 
+.correct-spelling {
+    height: 27px;
+}
+
+#spelling {
+    position: absolute;
+    cursor: pointer;
+    width: 160px;
+}
+
 @media screen and (max-width:1020px) {
     #search_txt {
         width: 85%
