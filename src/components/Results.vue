@@ -11,7 +11,7 @@
         </div>
         <div id="selMenu" v-show="showMenu">
           <div class="form-group menuForm">
-            <select v-model="searchInfo.lr" class="form-select select-sm">
+            <select v-model="searchInfo.lr" class="form-select select-sm" @change="onchange">
               <option value="-">不限语言</option>
               <option value="lang_en">English</option>
               <option value="lang_zh-CN">简体中文</option>
@@ -19,7 +19,7 @@
             </select>
           </div>
           <div class="form-group menuForm menuFormDest">
-            <select v-model="searchInfo.dateRestrict" class="form-select select-sm">
+            <select v-model="searchInfo.dateRestrict" class="form-select select-sm" @change="onchange">
               <option value="-">不限时间</option>
               <option value="d1">过去1天</option>
               <option value="w1">过去1周</option>
@@ -28,7 +28,7 @@
             </select>
           </div>
           <div class="form-group menuForm menuFormDest">
-            <select v-model="searchInfo.sort" class="form-select select-sm">
+            <select v-model="searchInfo.sort" class="form-select select-sm" @change="onchange">
               <option value="-">相关排序</option>
               <option value="date">时间排序</option>
             </select>
@@ -204,6 +204,9 @@ export default {
       this.searchInfo.page = 1;
       this.$emit("update:searchText", this.searchText);
       this.search();
+    },
+    onchange() {
+      this.searchInfo.page = 1;
     }
   },
   watch: {

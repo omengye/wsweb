@@ -44,6 +44,10 @@ b {
     height: 40px;
 }
 
+.icon-cross {
+    cursor: pointer;
+}
+
 #result {
     width: 80%;
     padding-top: 1%;
@@ -143,6 +147,7 @@ b {
     position: absolute;
     cursor: pointer;
     width: 160px;
+    margin-top: 5px;
 }
 
 @media screen and (max-width:1020px) {

@@ -110,6 +110,7 @@ export default {
           this.showSuggest = false;
         }
         if (data.click) {
+          this.searchInfo.page = 1;
           this.search();
         }
       }
@@ -162,6 +163,7 @@ export default {
     },
     cleanText() {
       this.searchText = "";
+      this.searchInfo.page = 1;
     }
   },
   watch: {
