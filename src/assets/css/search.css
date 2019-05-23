@@ -42,6 +42,7 @@ b {
 
 .has-icon-right {
     width: 40%;
+    min-width: 365px;
 }
 
 #search_txt {
@@ -102,6 +103,7 @@ b {
 
 #suggest {
     width: 32%;
+    min-width: 365px;
     margin-left: 10%;
     z-index: 1;
     border-color: #ccc;
@@ -219,16 +221,14 @@ b {
 .flip-container {
     transform-style: preserve-3d;
     position: relative;
+    width: 40%;
+    min-width: 365px;
+    height: 30px;
+    float: left;
 }
 
 #tools {
     width: 100%;
-}
-
-.flip-container {
-    width: 40%;
-    height: 30px;
-    float: left;
 }
 
 .flipper {
@@ -280,22 +280,22 @@ b {
 
     #continner {
         width: 80%;
-        margin-left: 5%;
+        margin-left: 10%;
     }
 
     #search {
         width: 90%;
-        margin-left: 10%;
+        margin-left: 5%;
         padding-top: 75px;
     }
 
     #result {
         width: 90%;
-        margin-left: 10%;
+        margin-left: 5%;
     }
 
     #suggest {
-        margin-left: 10%;
+        margin-left: 5%;
         width: calc(90% - 40px);
     }
 
@@ -310,10 +310,12 @@ b {
 @media screen and (max-width:550px) {
     .flip-container {
         width: calc(100% - 40px);
+        min-width: unset;
     }
     
     .has-icon-right {
         width: calc(100% - 40px);
+        min-width: unset;
     }
 
     #search_txt {
@@ -337,12 +339,64 @@ b {
 
     #suggest {
         margin-left: 5%;
-        width: 90%;
+        width: calc(90% - 1px);
+        min-width: unset;
     }
 
     #canvascontinner {
         display: block;
         float: none;
         margin-left: calc(50% - 75px);
+    }
+}
+
+@media screen and (max-width:400px) {
+    .flip-container {
+        width: calc(100% - 40px);
+        min-width: unset;
+    }
+    
+    .has-icon-right {
+        width: calc(100% - 40px);
+        min-width: unset;
+    }
+
+    #search_txt {
+        width: 100%
+    }
+
+    #continner {
+        width: calc(100% - 10px);
+        margin-left: 5px;
+    }
+
+    #search {
+        width: calc(100% - 10px);
+        margin-left: 5px;
+    }
+
+    #result {
+        width: calc(100% - 10px);
+        margin-left: 5px;
+    }
+
+    #suggest {
+        margin-left: 5px;
+        width: calc(100% - 11px);
+        min-width: unset;
+    }
+
+    #canvascontinner {
+        display: block;
+        float: none;
+        margin-left: calc(50% - 75px);
+    }
+
+    .menuForm {
+        width: 82px;
+    }
+
+    .form-select.select-sm, .bcolorw {
+        font-size: 0.6rem;
     }
 }
