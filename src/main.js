@@ -4,6 +4,8 @@ import App from './App.vue'
 
 Vue.config.productionTip = false
 
-new Vue({
-  render: h => h(App),
-}).$mount('#app')
+if (document.browsertype===0 || document.browsertype>=10) {
+  new Vue({
+    render: h => h(App),
+  }).$mount('#app')
+}

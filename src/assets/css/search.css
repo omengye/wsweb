@@ -2,6 +2,10 @@ html, body {
     height: 100%;
 }
 
+#appcontent {
+    height: 100%;
+}
+
 .wrapper {
     position: relative;
     min-height: 100%;
@@ -17,6 +21,11 @@ b {
 #infos {
     font-size: 14px;
     margin-top: 3px;
+}
+
+.errormsg {
+    color: rgba(255,0,0,.57);
+    font-weight: 600;
 }
 
 #continner {
@@ -110,12 +119,24 @@ b {
 
 #menu {
     border: none;
-    background-color: white;
     width: 38px;
+    margin-top: 1px;
+}
+
+#menu>i {
+    margin-top: -3px;
+}
+
+.bcolor {
+    background-color: #ececec
+}
+
+.bcolorw {
+    background-color: white;
 }
 
 .menuForm {
-    width: 87px;
+    width: 90px;
     float: left;
 }
 
@@ -146,76 +167,23 @@ b {
 #spelling {
     position: absolute;
     cursor: pointer;
-    width: 160px;
+    width: 80%;
     margin-top: 5px;
 }
 
-@media screen and (max-width:1020px) {
-    .has-icon-right {
-        width: calc(100% - 40px);
-    }
-
-    #search_txt {
-        width: 100%
-    }
-
-    #continner {
-        width: 80%;
-        margin-left: 5%;
-    }
-
-    #search {
-        width: 80%;
-        margin-left: 5%;
-    }
-
-    #result {
-        width: 80%;
-        margin-left: 5%;
-    }
-
-    #suggest {
-        margin-left: 5%;
-        width: calc(80% - 40px);
-    }
-
-    #tools {
-        width: calc(100% - 40px);
-    }
+#canvascontinner {
+    height: 75px;
+    width: 150px;
+    float: left;
+    margin-top: calc(5% - 20px);
+    margin-left: calc(10% - 160px);
+    position: absolute;
 }
 
-@media screen and (max-width:550px) {
-    .has-icon-right {
-        width: calc(100% - 40px);
-    }
-
-    #search_txt {
-        width: 100%
-    }
-
-    #continner {
-        width: 90%;
-        margin-left: 5%;
-    }
-
-    #search {
-        width: 90%;
-        margin-left: 5%;
-    }
-
-    #result {
-        width: 90%;
-        margin-left: 5%;
-    }
-
-    #suggest {
-        margin-left: 5%;
-        width: 90%;
-    }
-
-    #tools {
-        width: calc(100% - 40px);
-    }
+#canvas {
+    height: 70px;
+    width: 150px;
+    cursor: pointer;
 }
 
 .footer {
@@ -240,4 +208,141 @@ b {
 
 .copyright > a {
     color: #50596c;
+}
+
+/* ie or edge delete button */
+::-ms-clear{display: none;}
+::-ms-reveal{display: none;}
+::-o-clear{display: none;}
+
+/* flip */
+.flip-container {
+    transform-style: preserve-3d;
+    position: relative;
+}
+
+#tools {
+    width: 100%;
+}
+
+.flip-container {
+    width: 40%;
+    height: 30px;
+    float: left;
+}
+
+.flipper {
+    transition: 0.6s;
+    transform-style: preserve-3d;
+    position: relative;
+}
+
+.front, .back {
+    width: 100%;
+    height: 30px;
+    backface-visibility: hidden;
+    transition: 0.6s;
+    transform-style: preserve-3d;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.front {
+    z-index: 2;
+    transform: rotateY(0deg);
+}
+
+.back {
+    transform: rotateX(180deg);
+}
+
+.frontflip {
+    transform: rotateX(180deg);
+}
+
+.backflip {
+    transform: rotateX(0deg);
+}
+
+@media screen and (max-width:1200px) {
+    .flip-container {
+        width: calc(100% - 40px);
+    }
+
+    .has-icon-right {
+        width: calc(100% - 40px);
+    }
+
+    #search_txt {
+        width: 100%
+    }
+
+    #continner {
+        width: 80%;
+        margin-left: 5%;
+    }
+
+    #search {
+        width: 90%;
+        margin-left: 10%;
+        padding-top: 75px;
+    }
+
+    #result {
+        width: 90%;
+        margin-left: 10%;
+    }
+
+    #suggest {
+        margin-left: 10%;
+        width: calc(90% - 40px);
+    }
+
+    #canvascontinner {
+        display: block;
+        float: none;
+        margin-top: 0px;
+        margin-left: calc(50% - 75px);
+    }
+}
+
+@media screen and (max-width:550px) {
+    .flip-container {
+        width: calc(100% - 40px);
+    }
+    
+    .has-icon-right {
+        width: calc(100% - 40px);
+    }
+
+    #search_txt {
+        width: 100%
+    }
+
+    #continner {
+        width: 90%;
+        margin-left: 5%;
+    }
+
+    #search {
+        width: 90%;
+        margin-left: 5%;
+    }
+
+    #result {
+        width: 90%;
+        margin-left: 5%;
+    }
+
+    #suggest {
+        margin-left: 5%;
+        width: 90%;
+    }
+
+    #canvascontinner {
+        display: block;
+        float: none;
+        margin-left: calc(50% - 75px);
+    }
 }

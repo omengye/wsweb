@@ -10,8 +10,7 @@
   "dependencies": {
     "axios": "^0.18.0",
     "vue": "^2.6.6",
-    "babel-polyfill": "^6.26.0",
-    "query-string": "^6.0.5"
+    "babel-polyfill": "^6.26.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.5.0",
@@ -44,6 +43,6 @@
   "browserslist": [
     "> 1%",
     "last 2 versions",
-    "not ie <= 8"
+    "not ie < 11"
   ]
 }

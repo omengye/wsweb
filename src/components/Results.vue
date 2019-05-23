@@ -1,41 +1,44 @@
 <template>
   <div id="result">
-    <div>    
-      <div id="tools">
-        <div id="infos" v-show="!showMenu && showInfo">
-          <div v-if="serror">{{errorMsg}}</div>
-          <div v-else>找到约
-            <span id="stotal">{{stotal}}</span>条记录 (用时
-            <span id="stime">{{stime}}</span>秒)
+    <div>   
+      <div  class="flip-container"> 
+        <div id="tools" class="flipper">
+          <div id="infos" v-bind:class="['front',showMenu?'frontflip':'']" v-show="showInfo">
+            <div v-if="serror" class="errormsg">{{errorMsg}}</div>
+            <div v-else>找到约
+              <span id="stotal">{{stotal}}</span>条记录 (用时
+              <span id="stime">{{stime}}</span>秒)
+            </div>
           </div>
-        </div>
-        <div id="selMenu" v-show="showMenu">
-          <div class="form-group menuForm">
-            <select v-model="searchInfo.lr" class="form-select select-sm" @change="onchange">
-              <option value="-">不限语言</option>
-              <option value="lang_en">English</option>
-              <option value="lang_zh-CN">简体中文</option>
-              <option value="lang_zh-TW">繁体中文</option>
-            </select>
-          </div>
-          <div class="form-group menuForm menuFormDest">
-            <select v-model="searchInfo.dateRestrict" class="form-select select-sm" @change="onchange">
-              <option value="-">不限时间</option>
-              <option value="d1">过去1天</option>
-              <option value="w1">过去1周</option>
-              <option value="m1">过去1月</option>
-              <option value="y1">过去1年</option>
-            </select>
-          </div>
-          <div class="form-group menuForm menuFormDest">
-            <select v-model="searchInfo.sort" class="form-select select-sm" @change="onchange">
-              <option value="-">相关排序</option>
-              <option value="date">时间排序</option>
-            </select>
+          <div id="selMenu" v-bind:class="['back',showMenu?'backflip':'']">
+            <div class="form-group menuForm">
+              <select v-model="searchInfo.lr" class="form-select select-sm" v-bind:style="{'background-color': lrColor}" @change="onchange">
+                <option value="-" class="bcolorw">不限语言</option>
+                <option value="lang_en" class="bcolorw">English</option>
+                <option value="lang_zh-CN" class="bcolorw">简体中文</option>
+                <option value="lang_zh-TW" class="bcolorw">繁体中文</option>
+              </select>
+            </div>
+            <div class="form-group menuForm menuFormDest">
+              <select v-model="searchInfo.dateRestrict" class="form-select select-sm" v-bind:style="{'background-color': dateRestrictColor}" @change="onchange">
+                <option value="-" class="bcolorw">不限时间</option>
+                <option value="d1" class="bcolorw">过去1天</option>
+                <option value="w1" class="bcolorw">过去1周</option>
+                <option value="m1" class="bcolorw">过去1月</option>
+                <option value="y1" class="bcolorw">过去1年</option>
+              </select>
+            </div>
+            <div class="form-group menuForm menuFormDest">
+              <select v-model="searchInfo.sort" class="form-select select-sm" v-bind:style="{'background-color': sortColor}" @change="onchange">
+                <option value="-" class="bcolorw">相关排序</option>
+                <option value="date" class="bcolorw">时间排序</option>
+              </select>
+            </div>
           </div>
         </div>
       </div>
-      <button id="menu" type="button" v-on:click="menu">
+      <button id="menu" type="button" v-on:click="menu" 
+        v-bind:class="[searchInfo.sort==='-'&&searchInfo.lr==='-'&&searchInfo.dateRestrict=='-'?bcolorWClass:bcolorClass]">
         <i class="icon icon-more-horiz"></i>
       </button>
     </div>
@@ -87,7 +90,10 @@ export default {
       enddingPage: false,
       showMenu: false,
       spelling: false,
-      correctedQuery: ''
+      correctedQuery: '',
+      // color
+      bcolorClass: 'bcolor',
+      bcolorWClass: 'bcolorw',
     };
   },
   methods: {
@@ -100,6 +106,7 @@ export default {
       this.serror = true;
       this.errorMsg = str;
       this.showInfo = true;
+      this.showMenu = false;
     },
     showErrorInfo(error) {
       this.errorInfo(utils.formatErrorMsg(error));
@@ -177,7 +184,7 @@ export default {
     setBrowerUrl() {
       var str = "/?q="+this.searchText;
       for (var i in this.searchInfo) {
-        if (this.searchInfo[i]) {
+        if (this.searchInfo[i] && this.searchInfo[i]!=='-') {
           str += "&"+i+"="+this.searchInfo[i];
         }
       }
@@ -207,6 +214,20 @@ export default {
     },
     onchange() {
       this.searchInfo.page = 1;
+    },
+    colorChange(type) {
+      return this.searchInfo===undefined || this.searchInfo[type]==='-' ?'white':'#ececec';
+    }
+  },
+  computed: {
+    lrColor() {
+      return this.colorChange('lr');
+    },
+    dateRestrictColor() {
+      return this.colorChange('dateRestrict');
+    },
+    sortColor() {
+      return this.colorChange('sort');
     }
   },
   watch: {

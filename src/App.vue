@@ -1,44 +1,63 @@
 <template>
-<div class="wrapper">
-  <div id="continner" v-on:click="hideSuggest">
-    <div id="search" class="input-group">
-      <div class="has-icon-right">
-        <input id="search_txt" type="text" class="form-control form-input" placeholder="Search for..." 
-          ref="sinput" 
-          v-model="searchText" v-on:keyup.enter="search"
-          v-on:keyup.up="itemUp" v-on:keyup.down="itemDown">
-        <i class="form-icon icon icon-cross" @click="cleanText"></i>
+  <div class="wrapper">
+    <div id="continner" v-on:click="hideSuggest">
+      <div id="canvascontinner" @click="backhome">
+        <canvas id="canvas"/>
       </div>
-      <span class="input-group-btn" style="float:left;">
-        <button
-          id="sbtn"
-          v-bind:class="[sbtnBase, sbtn?'loading':'']"
-          type="button"
-          v-on:click="search"
-        >
-          <i class="icon icon-search"></i>
-        </button>
-      </span>
+      <div id="search" class="input-group">
+        <div class="has-icon-right">
+          <input
+            id="search_txt"
+            type="text"
+            class="form-control form-input"
+            placeholder="Search for..."
+            ref="sinput"
+            v-model="searchText"
+            v-on:keyup.enter="search"
+            v-on:keyup.up="itemUp"
+            v-on:keyup.down="itemDown"
+          >
+          <i class="form-icon icon icon-cross" @click="cleanText"></i>
+        </div>
+        <span class="input-group-btn" style="float:left;">
+          <button
+            id="sbtn"
+            v-bind:class="[sbtnBase, sbtn?'loading':'']"
+            type="button"
+            v-on:click="search"
+          >
+            <i class="icon icon-search"></i>
+          </button>
+        </span>
+      </div>
+      <suggest
+        ref="suggestRes"
+        v-if="showSuggest"
+        v-bind:suggests="suggests"
+        v-on:chooseItem="chooseItem"
+      />
+      <results
+        ref="searchRes"
+        v-bind:sbtn="sbtn"
+        v-on:update:sbtn="changeSbtn"
+        v-on:update:searchText="changeSText"
+      />
     </div>
-    <suggest ref="suggestRes" v-if="showSuggest" v-bind:suggests="suggests" v-on:chooseItem="chooseItem"/>
-    <results ref="searchRes" v-bind:sbtn="sbtn" v-on:update:sbtn="changeSbtn" v-on:update:searchText="changeSText"/>
+    <div class="footer">
+      <div class="ipaddr">{{ipAddr}}</div>
+      <div class="copyright">
+        © 2019.
+        <a class="tooltip tooltip-top" data-tooltip="丝绸之路">Silk Road</a>
+      </div>
+    </div>
   </div>
-  <div class="footer">
-    <div class="ipaddr">
-      {{ipAddr}}
-    </div>
-    <div class="copyright">
-      © 2019. <a class="tooltip tooltip-top" data-tooltip="丝绸之路">Silk Road</a>
-    </div>
-  </div>
-</div>
 </template>
 
 <script>
-import Suggest from './components/Suggest.vue'
-import Results from './components/Results.vue'
-import utils from './assets/js/utils.js'
-import { setTimeout } from 'timers';
+import Suggest from "./components/Suggest.vue";
+import Results from "./components/Results.vue";
+import utils from "./assets/js/utils.js";
+import { setTimeout } from "timers";
 
 export default {
   name: "app",
@@ -49,7 +68,7 @@ export default {
   data() {
     return {
       Utils: utils,
-      searchText: '',
+      searchText: "",
       suggestWait: false,
       showSuggest: false,
       suggests: [],
@@ -57,32 +76,45 @@ export default {
       chooseIdx: -1,
       // control sbtn
       sbtn: false,
-      sbtnBase: 'btn btn-primary btn-action btn-lg',
-      ipAddr: '',
+      sbtnBase: "btn btn-primary btn-action btn-lg",
+      ipAddr: "",
       finTime: 0,
       searchInfo: {
-        sort: '-',
+        sort: "-",
         page: 1,
-        lr: '-',
-        dateRestrict: '-'
-      },
-      queryString: require('query-string')
+        lr: "-",
+        dateRestrict: "-"
+      }
     };
   },
-  computed: {
-  },
+  computed: {},
   methods: {
     search() {
       this.showSuggest = false;
-      if (this.searchText!=='') {
+      if (this.searchText !== "") {
         this.sbtn = true;
       }
       this.$refs.searchRes.search(this.searchInfo, this.searchText);
     },
+    queryString() {
+      var pairs = location.search.slice(1).split("&");
+      var result = {};
+      pairs.forEach(function(pair) {
+        pair = pair.split("=");
+        result[pair[0]] = decodeURIComponent(pair[1] || "");
+      });
+      return JSON.parse(JSON.stringify(result));
+    },
     filterSuggest(val) {
       let res = [];
       let datas = val;
-      if (datas.length<2 || !datas || !(datas instanceof Array) || !datas[1] || !(datas[1] instanceof Array)) {
+      if (
+        datas.length < 2 ||
+        !datas ||
+        !(datas instanceof Array) ||
+        !datas[1] ||
+        !(datas[1] instanceof Array)
+      ) {
         return res;
       }
       datas[1].forEach(element => {
@@ -92,21 +124,19 @@ export default {
     },
     hideSuggest(event) {
       let suggestDiv = document.getElementById("suggest");
-      if(suggestDiv && !suggestDiv.contains(event.target)){
+      if (suggestDiv && !suggestDiv.contains(event.target)) {
         this.showSuggest = false;
       }
     },
     chooseItem(data) {
       if (this.suggests.length > 0) {
         this.skipSearch = true;
-        if (data.item && (data.click||data.key)) {
+        if (data.item && (data.click || data.key)) {
           this.searchText = data.item;
           this.chooseIdx = data.cidx;
-        }
-        else if (data.item) {
+        } else if (data.item) {
           this.chooseIdx = data.cidx;
-        }
-        else {
+        } else {
           this.showSuggest = false;
         }
         if (data.click) {
@@ -119,8 +149,7 @@ export default {
       if (this.suggests.length > 0) {
         if (this.chooseIdx <= 0) {
           this.chooseIdx = this.suggests.length - 1;
-        }
-        else {
+        } else {
           this.chooseIdx -= 1;
         }
         this.$refs.suggestRes.menter(this.chooseIdx, true);
@@ -128,10 +157,9 @@ export default {
     },
     itemDown() {
       if (this.suggests.length > 0) {
-        if (this.chooseIdx == this.suggests.length-1) {
+        if (this.chooseIdx == this.suggests.length - 1) {
           this.chooseIdx = 0;
-        }
-        else {
+        } else {
           this.chooseIdx += 1;
         }
         this.$refs.suggestRes.menter(this.chooseIdx, true);
@@ -147,7 +175,7 @@ export default {
       this.changeSbtn(true);
     },
     getParamFromUrl() {
-      const parsed = this.queryString.parse(location.search);
+      const parsed = this.queryString();
       for (var i in this.searchInfo) {
         if (parsed[i]) {
           if (i === "page") {
@@ -164,18 +192,37 @@ export default {
     cleanText() {
       this.searchText = "";
       this.searchInfo.page = 1;
+    },
+    // logo
+    draw() {
+      const myFont = new FontFace("Inkfree", "url(./fonts/Inkfree.woff2)");
+      myFont.load().then(font => {
+        document.fonts.add(font);
+        var ctx = document.getElementById("canvas").getContext("2d");
+        ctx.font = "100px Inkfree";
+        var str = "scz.lu";
+        ctx.fillText(str, 32, 110);
+      });
+    },
+    backhome() {
+      window.location.href = window.location.origin;
     }
   },
   watch: {
     searchText() {
-      if (this.searchText!='' && !this.suggestWait && !this.skipSearch) {
+      if (this.searchText != "" && !this.suggestWait && !this.skipSearch) {
         this.suggestWait = true;
         this.finTime = 0;
         this.showSuggest = false;
 
-        utils.queryRequest('/gcs/api/suggest?q='+encodeURI(this.searchText),
-          (data)=>{
-            if (this.searchText=='' || this.sbtn || (this.finTime>0 && new Date()>this.finTime)) {
+        utils.queryRequest(
+          "/gcs/api/suggest?q=" + encodeURI(this.searchText),
+          data => {
+            if (
+              this.searchText == "" ||
+              this.sbtn ||
+              (this.finTime > 0 && new Date() > this.finTime)
+            ) {
               this.showSuggest = false;
               return;
             }
@@ -186,7 +233,7 @@ export default {
               this.suggests = suggests;
             }
           },
-          ()=> {
+          () => {
             // this.$refs.searchRes.showErrorInfo(error);
             this.showSuggest = false;
           }
@@ -196,23 +243,24 @@ export default {
           this.suggestWait = false;
         }, 500);
       }
-      
+
       this.skipSearch = false;
     }
   },
   mounted() {
-    this.$refs['sinput'].focus();
-    utils.getToken(()=>{
+    this.$refs["sinput"].focus();
+    utils.getToken(() => {
       if (window.localStorage.access_token) {
-        this.ipAddr = "Your IP: " + JSON.parse(window.localStorage.access_token).ip;
+        this.ipAddr =
+          "Your IP: " + JSON.parse(window.localStorage.access_token).ip;
 
         this.getParamFromUrl();
         this.search();
       }
     });
+    this.draw();
   },
-  created() {
-  }
+  created() {}
 };
 </script>
 
@@ -220,5 +268,4 @@ export default {
 @import "assets/css/spectre.min.css";
 @import "assets/css/spectre-icons.min.css";
 @import "assets/css/search.css";
-
 </style>
