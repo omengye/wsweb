@@ -38,7 +38,7 @@
         </div>
       </div>
       <button id="menu" type="button" v-on:click="menu" 
-        v-bind:class="[searchInfo.sort==='-'&&searchInfo.lr==='-'&&searchInfo.dateRestrict=='-'?bcolorWClass:bcolorClass]">
+        v-bind:class="[menuClassWhite?'bcolorw':'bcolor']">
         <i class="icon icon-more-horiz"></i>
       </button>
     </div>
@@ -90,10 +90,7 @@ export default {
       enddingPage: false,
       showMenu: false,
       spelling: false,
-      correctedQuery: '',
-      // color
-      bcolorClass: 'bcolor',
-      bcolorWClass: 'bcolorw',
+      correctedQuery: ''
     };
   },
   methods: {
@@ -228,6 +225,13 @@ export default {
     },
     sortColor() {
       return this.colorChange('sort');
+    },
+    menuClassWhite() {
+      if ((this.searchInfo.sort===undefined&&this.searchInfo.lr===undefined&&this.searchInfo.dateRestrict===undefined)
+        || (this.searchInfo.sort==='-'&&this.searchInfo.lr==='-'&&this.searchInfo.dateRestrict==='-')) {
+        return true;
+      }
+      return false;
     }
   },
   watch: {
