@@ -24,7 +24,7 @@
             id="sbtn"
             v-bind:class="[sbtnBase, sbtn?'loading':'']"
             type="button"
-            v-on:click="search"
+            v-on:click="startSearch"
           >
             <i class="icon icon-search"></i>
           </button>
@@ -89,6 +89,10 @@ export default {
   },
   computed: {},
   methods: {
+    startSearch() {
+      this.searchInfo.page = 1;
+      this.search();
+    },
     search() {
       this.showSuggest = false;
       if (this.searchText !== "") {
@@ -140,8 +144,7 @@ export default {
           this.showSuggest = false;
         }
         if (data.click) {
-          this.searchInfo.page = 1;
-          this.search();
+          this.startSearch();
         }
       }
     },
