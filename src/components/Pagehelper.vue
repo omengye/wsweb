@@ -1,15 +1,15 @@
 <template>
   <div class="pagination">
-    <li id="startp" v-bind:class="{ loading: clickType==='startp'}" style="display: block;">
+    <li id="startp" :class="{ loading: clickType==='startp'}" style="display: block;">
       <a class="pbtn" @click="changePage('startp')">&lt;&lt;</a>
     </li>
-    <li id="prevp" v-bind:class="{ loading: clickType==='prevp'}" v-show="page>1 || clickType==='prevp'">
+    <li id="prevp" :class="{ loading: clickType==='prevp'}" v-show="page>1 || clickType==='prevp'">
       <a class="pbtn" @click="changePage('prevp')">&lt;</a>
     </li>
-    <li class>
+    <li>
       <a id="Tpagenum">Page {{page}}</a>
     </li>
-    <li id="nextp" v-bind:class="{ loading: clickType==='nextp'}" v-show="!enddingPage">
+    <li id="nextp" :class="{ loading: clickType==='nextp'}" v-show="!enddingPage" >
       <a class="pbtn" @click="changePage('nextp')">&gt;</a>
     </li>
   </div>

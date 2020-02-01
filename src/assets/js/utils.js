@@ -4,7 +4,7 @@ export default {
     axiosConfig: {
         headers: { 'Authorization': '' },
 
-        timeout: 5000,
+        timeout: 8000,
 
         responseType: 'json',
 
@@ -17,7 +17,7 @@ export default {
         return Date.parse(new Date()) / 1000;
     },
     requestToken(callback) {
-        get('/user/genToken', this.axiosConfig)
+        get('/api/user/token', this.axiosConfig)
             .then((response)=>{
                 let data = response.data;
                 data.tokentime = this.getNowTime();

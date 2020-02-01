@@ -13,18 +13,18 @@
             placeholder="Search for..."
             ref="sinput"
             v-model="searchText"
-            v-on:keyup.enter="search"
-            v-on:keyup.up="itemUp"
-            v-on:keyup.down="itemDown"
+            @keyup.enter="search"
+            @keyup.up="itemUp"
+            @keyup.down="itemDown"
           >
           <i class="form-icon icon icon-cross" @click="cleanText"></i>
         </div>
         <span class="input-group-btn" style="float:left;">
           <button
             id="sbtn"
-            v-bind:class="[sbtnBase, sbtn?'loading':'']"
+            :class="[sbtnBase, sbtn?'loading':'']"
             type="button"
-            v-on:click="startSearch"
+            @click="startSearch"
           >
             <i class="icon icon-search"></i>
           </button>
@@ -33,14 +33,14 @@
       <suggest
         ref="suggestRes"
         v-if="showSuggest"
-        v-bind:suggests="suggests"
-        v-on:chooseItem="chooseItem"
+        :suggests="suggests"
+        @chooseItem="chooseItem"
       />
       <results
         ref="searchRes"
-        v-bind:sbtn="sbtn"
-        v-on:update:sbtn="changeSbtn"
-        v-on:update:searchText="changeSText"
+        :sbtn="sbtn"
+        @update:sbtn="changeSbtn"
+        @update:searchText="changeSText"
       />
     </div>
     <div class="footer">
@@ -219,7 +219,7 @@ export default {
         this.showSuggest = false;
 
         utils.queryRequest(
-          "/gcs/api/suggest?q=" + encodeURI(this.searchText),
+          "/api/gcs/suggest?q=" + encodeURI(this.searchText),
           data => {
             if (
               this.searchText == "" ||

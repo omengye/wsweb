@@ -3,16 +3,16 @@
     <div>   
       <div  class="flip-container"> 
         <div id="tools" class="flipper">
-          <div id="infos" v-bind:class="['front',showMenu?'frontflip':'']" v-show="showInfo">
+          <div id="infos" :class="['front',showMenu?'frontflip':'']" v-show="showInfo">
             <div v-if="serror" class="errormsg">{{errorMsg}}</div>
             <div v-else>找到约
               <span id="stotal">{{stotal}}</span>条记录 (用时
               <span id="stime">{{stime}}</span>秒)
             </div>
           </div>
-          <div id="selMenu" v-bind:class="['back',showMenu?'backflip':'']">
+          <div id="selMenu" :class="['back',showMenu?'backflip':'']">
             <div class="form-group menuForm">
-              <select v-model="searchInfo.lr" class="form-select select-sm" v-bind:style="{'background-color': lrColor}" @change="onchange">
+              <select v-model="searchInfo.lr" class="form-select select-sm" :style="{'background-color': lrColor}" @change="onchange">
                 <option value="-" class="bcolorw">不限语言</option>
                 <option value="lang_en" class="bcolorw">English</option>
                 <option value="lang_zh-CN" class="bcolorw">简体中文</option>
@@ -20,7 +20,7 @@
               </select>
             </div>
             <div class="form-group menuForm menuFormDest">
-              <select v-model="searchInfo.dateRestrict" class="form-select select-sm" v-bind:style="{'background-color': dateRestrictColor}" @change="onchange">
+              <select v-model="searchInfo.dateRestrict" class="form-select select-sm" :style="{'background-color': dateRestrictColor}" @change="onchange">
                 <option value="-" class="bcolorw">不限时间</option>
                 <option value="d1" class="bcolorw">过去1天</option>
                 <option value="w1" class="bcolorw">过去1周</option>
@@ -29,7 +29,7 @@
               </select>
             </div>
             <div class="form-group menuForm menuFormDest">
-              <select v-model="searchInfo.sort" class="form-select select-sm" v-bind:style="{'background-color': sortColor}" @change="onchange">
+              <select v-model="searchInfo.sort" class="form-select select-sm" :style="{'background-color': sortColor}" @change="onchange">
                 <option value="-" class="bcolorw">相关排序</option>
                 <option value="date" class="bcolorw">时间排序</option>
               </select>
@@ -37,7 +37,7 @@
           </div>
         </div>
       </div>
-      <button id="menu" type="button" v-on:click="menu" 
+      <button id="menu" type="button" @click="menu" 
         v-bind:class="[menuClassWhite?'bcolorw':'bcolor']">
         <i class="icon icon-more-horiz"></i>
       </button>
@@ -51,14 +51,14 @@
     <div id="items">
       <div class="item" v-for="(item, idx) in items" :key="idx">
         <div class="title">
-          <a class="link" v-bind:href="item.link" target="_blank" v-html="item.htmlTitle"></a>
+          <a class="link" :href="item.link" target="_blank" v-html="item.htmlTitle"></a>
         </div>
         <div class="formattedUrl">{{item.formattedUrl}}</div>
         <div class="htmlSnippet" v-html="item.htmlSnippet"></div>
       </div>
     </div>
     <div v-show="showPage" style="margin-top:10px;">
-      <pagehelper ref="pager" v-bind:enddingPage="enddingPage" v-bind:cpage="searchInfo.page" v-on:changePage="changePage"/>
+      <pagehelper ref="pager" :enddingPage="enddingPage" :cpage="searchInfo.page" v-on:changePage="changePage"/>
     </div>
   </div>
 </template>
@@ -132,7 +132,7 @@ export default {
       }
       this.setBrowerUrl();
       utils.queryRequest(
-        "/gcs/api/g" + this.genSearchUrl(),
+        "/api/gcs/g" + this.genSearchUrl(),
         data => {
           this.serror = false;
           this.$emit("update:sbtn", false);
