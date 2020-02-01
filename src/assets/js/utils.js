@@ -4,7 +4,7 @@ export default {
     axiosConfig: {
         headers: { 'Authorization': '' },
 
-        timeout: 5000,
+        timeout: 8000,
 
         responseType: 'json',
 
