@@ -79,7 +79,7 @@ export default {
             }
         }).catch((error) => {
             if (errorcallback && error.response 
-                    && error.response.status == 401 && !retry) {
+                    && error.response.status === 401 && !retry) {
                 window.localStorage.removeItem("access_token");
                 this.getToken(() => {
                     this.queryData(url, callback, errorcallback, true);
@@ -94,17 +94,17 @@ export default {
         });
     },
     formatErrorMsg(error) {
-        if (error.code=="ECONNABORTED" || error.code=="TIMEOUT") {
+        if (error.code==="ECONNABORTED" || error.code==="TIMEOUT") {
             return error.message;
         }
-        else if (error.status == 401){
+        else if (error.status === 401){
             window.localStorage.setItem('access_token','');
             return "ERROR: No Authorization, Please Refresh Page";
         }
-        else if (error.status == 429) {
+        else if (error.status === 429) {
             return "ERROR: Too Many Requests";
         }
-        else if (error.status == 500) {
+        else if (error.status === 500) {
             return "ERROR: Internal Server Error";
         }
     }

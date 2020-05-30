@@ -112,13 +112,8 @@ export default {
       return (this.searchInfo.page - 1) * this.rowNum + 1;
     },
     isEnddingPage() {
-      if ((this.maxPage-1)*this.rowNum < this.startNum()
-        || this.searchInfo.page >= 1 && this.items.length < this.rowNum) {
-          this.enddingPage = true;
-      }
-      else {
-        this.enddingPage = false;
-      }
+      this.enddingPage = (this.maxPage - 1) * this.rowNum < this.startNum()
+              || this.searchInfo.page >= 1 && this.items.length < this.rowNum;
     },
     search(searchInfo, searchText) {
       if (searchInfo) {
@@ -130,7 +125,6 @@ export default {
       else if (!searchText && !this.searchText){
         return;
       }
-      this.setBrowerUrl();
       utils.queryRequest(
         "/api/gcs/g" + this.genSearchUrl(),
         data => {
@@ -151,7 +145,7 @@ export default {
             this.items = data.items;
           }
 
-          if (this.items.length == this.rowNum && this.searchInfo.page > 0) {
+          if (this.items.length === this.rowNum && this.searchInfo.page > 0) {
             this.showPage = true;
           }
 
@@ -163,6 +157,7 @@ export default {
             this.spelling = false;
           }
 
+          this.setBrowerUrl();
           this.isEnddingPage();
           this.$refs.pager.commit();
           window.scrollTo(0, 0);
@@ -179,8 +174,8 @@ export default {
       this.search();
     },
     setBrowerUrl() {
-      var str = "/?q="+this.searchText;
-      for (var i in this.searchInfo) {
+      let str = "?q="+this.searchText;
+      for (let i in this.searchInfo) {
         if (this.searchInfo[i] && this.searchInfo[i]!=='-') {
           str += "&"+i+"="+this.searchInfo[i];
         }
