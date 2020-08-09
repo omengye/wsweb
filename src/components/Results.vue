@@ -180,7 +180,7 @@ export default {
           str += "&"+i+"="+this.searchInfo[i];
         }
       }
-      window.history.replaceState(null, null, str);
+      window.history.pushState(null, null, str);
     },
     genSearchUrl() {
       var str = "?num=10&q="+encodeURI(this.searchText);
