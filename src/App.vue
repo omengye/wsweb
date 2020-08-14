@@ -268,7 +268,5 @@ export default {
 </script>
 
 <style>
-@import "assets/css/spectre.min.css";
-@import "assets/css/spectre-icons.min.css";
 @import "assets/css/search.css";
 </style>
