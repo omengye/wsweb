@@ -44,7 +44,7 @@
     </div>
     <div class="correct-spelling" v-show="spelling">
       <div id="spelling">
-        <span>您是不是要找:</span> 
+        <span>您是不是要找: </span> 
         <a @click="corrQuery">{{correctedQuery}}</a>
       </div>
     </div>
@@ -139,11 +139,11 @@ export default {
             this.items  = [];
           }
           else {
-            let stime = data.searchInformation.formattedSearchTime;
-            let stotal = data.searchInformation.formattedTotalResults;
-            this.showInfoMsg(stotal, stime);
             this.items = data.items;
           }
+          let stime = data.searchInformation.formattedSearchTime;
+          let stotal = data.searchInformation.formattedTotalResults;
+          this.showInfoMsg(stotal, stime);
 
           if (this.items.length === this.rowNum && this.searchInfo.page > 0) {
             this.showPage = true;

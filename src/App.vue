@@ -46,7 +46,7 @@
     <div class="footer">
       <div class="ipaddr">{{ipAddr}}</div>
       <div class="copyright">
-        © 2019.
+        © {{copyright_year}}.
         <a class="tooltip tooltip-top" data-tooltip="丝绸之路">Silk Road</a>
       </div>
     </div>
@@ -79,6 +79,7 @@ export default {
       sbtnBase: "btn btn-primary btn-action btn-lg",
       ipAddr: "",
       finTime: 0,
+      copyright_year: 0,
       searchInfo: {
         sort: "-",
         page: 1,
@@ -255,8 +256,9 @@ export default {
     utils.getToken(() => {
       if (window.localStorage.access_token) {
         this.ipAddr =
-          "Your IP: " + JSON.parse(window.localStorage.access_token).ip;
+          "From: " + JSON.parse(window.localStorage.access_token).ip;
 
+        this.copyright_year = JSON.parse(window.localStorage.access_token).visitTime.substring(0, 4);
         this.getParamFromUrl();
         this.search();
       }
