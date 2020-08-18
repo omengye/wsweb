@@ -198,7 +198,7 @@ export default {
     },
     // logo
     draw() {
-      const myFont = new FontFace("Inkfree", "url(http://cdn.jsdelivr.net/gh/omengye/wsweb/public/fonts/Inkfree.woff2)");
+      const myFont = new FontFace("Inkfree", "url(https://cdn.jsdelivr.net/gh/omengye/wsweb/public/fonts/Inkfree.woff2)");
       myFont.load().then(font => {
         document.fonts.add(font);
         var ctx = document.getElementById("canvas").getContext("2d");
