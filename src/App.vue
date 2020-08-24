@@ -13,7 +13,7 @@
             placeholder="Search for..."
             ref="sinput"
             v-model="searchText"
-            @keyup.enter="search"
+            @keyup.enter="startSearch"
             @keyup.up="itemUp"
             @keyup.down="itemDown"
           >
