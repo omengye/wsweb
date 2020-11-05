@@ -141,9 +141,11 @@ export default {
           else {
             this.items = data.items;
           }
-          let stime = data.searchInformation.formattedSearchTime;
-          let stotal = data.searchInformation.formattedTotalResults;
-          this.showInfoMsg(stotal, stime);
+          if (data.searchInformation) {
+            let stime = data.searchInformation.formattedSearchTime;
+            let stotal = data.searchInformation.formattedTotalResults;
+            this.showInfoMsg(stotal, stime);
+          }
 
           if (this.items.length === this.rowNum && this.searchInfo.page > 0) {
             this.showPage = true;
