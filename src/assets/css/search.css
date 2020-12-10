@@ -215,7 +215,6 @@ b {
 /* ie or edge delete button */
 ::-ms-clear{display: none;}
 ::-ms-reveal{display: none;}
-::-o-clear{display: none;}
 
 /* flip */
 .flip-container {
@@ -263,6 +262,10 @@ b {
 
 .backflip {
     transform: rotateX(0deg);
+}
+
+.moon {
+    float: left;
 }
 
 @media screen and (max-width:1200px) {

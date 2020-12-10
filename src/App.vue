@@ -1,5 +1,10 @@
 <template>
   <div class="wrapper">
+    <div class="moon" @click="darkmode">
+      <svg style="fill: var(--color-promo-color-modes-toggle-moon); margin: 12px 0 0 11px;" width="20" height="18" viewBox="0 0 20 18" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M6.28352 10.5764C10.8677 10.5764 14.5839 6.86014 14.5839 2.27596C14.5839 1.7242 14.5301 1.18501 14.4274 0.663368C14.3548 0.294826 14.7414 -0.0153636 15.0516 0.196463C17.4905 1.86202 19.0914 4.66438 19.0914 7.84067C19.0914 12.9493 14.9501 17.0907 9.84145 17.0907C5.24982 17.0907 1.43959 13.7451 0.715408 9.35868C0.654273 8.98839 1.09783 8.76831 1.40118 8.98931C2.77129 9.98745 4.45863 10.5764 6.28352 10.5764Z"></path>
+      </svg>
+    </div>
     <div id="continner" v-on:click="hideSuggest">
       <div id="canvascontinner" @click="backhome">
         <canvas id="canvas"/>
@@ -85,7 +90,8 @@ export default {
         page: 1,
         lr: "-",
         dateRestrict: "-"
-      }
+      },
+      myFont: new FontFace("Inkfree", "url(https://cdn.jsdelivr.net/gh/omengye/wsweb/public/fonts/Inkfree.woff2)")
     };
   },
   computed: {},
@@ -198,18 +204,21 @@ export default {
       this.searchInfo.page = 1;
     },
     // logo
-    draw() {
-      const myFont = new FontFace("Inkfree", "url(https://cdn.jsdelivr.net/gh/omengye/wsweb/public/fonts/Inkfree.woff2)");
-      myFont.load().then(font => {
+    draw(style) {
+      this.myFont.load().then(font => {
         document.fonts.add(font);
-        var ctx = document.getElementById("canvas").getContext("2d");
+        const ctx = document.getElementById("canvas").getContext("2d");
         ctx.font = "100px Inkfree";
-        var str = "scz.lu";
+        ctx.fillStyle = style;
+        const str = "scz.lu";
         ctx.fillText(str, 32, 110);
       });
     },
     backhome() {
       window.location.href = window.location.origin + window.location.pathname;
+    },
+    darkmode() {
+      this.draw('white')
     }
   },
   watch: {
@@ -263,7 +272,7 @@ export default {
         this.search();
       }
     });
-    this.draw();
+    this.draw('black');
   },
   created() {}
 };
