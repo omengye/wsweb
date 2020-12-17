@@ -90,7 +90,8 @@ export default {
       enddingPage: false,
       showMenu: false,
       spelling: false,
-      correctedQuery: ''
+      correctedQuery: '',
+      darkmode: false
     };
   },
   methods: {
@@ -210,8 +211,21 @@ export default {
       this.searchInfo.page = 1;
     },
     colorChange(type) {
-      return this.searchInfo===undefined || this.searchInfo[type]==='-' ?'white':'#ececec';
+      return this.searchInfo===undefined || this.searchInfo[type]==='-' ?this.getColorMode():this.getColorModeSel();
+    },
+    getColorMode() {
+      if (this.darkmode) {
+        return '#2b2b2b';
+      }
+      return '#bcc3ce';
+    },
+    getColorModeSel(){
+      if (this.darkmode) {
+        return '#2b2b2b'
+      }
+      return '#ececec'
     }
+
   },
   computed: {
     lrColor() {

@@ -1,12 +1,12 @@
 <template>
   <div class="wrapper">
-    <div class="moon" @click="darkmode">
-      <svg style="fill: var(--color-promo-color-modes-toggle-moon); margin: 12px 0 0 11px;" width="20" height="18" viewBox="0 0 20 18" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+    <div class="moon" @click="changeMode">
+      <svg style="fill: var(--color-promo-color-modes-toggle-moon); margin: 12px 0 0 11px;" width="20" height="18" viewBox="0 0 20 18" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
         <path fill-rule="evenodd" clip-rule="evenodd" d="M6.28352 10.5764C10.8677 10.5764 14.5839 6.86014 14.5839 2.27596C14.5839 1.7242 14.5301 1.18501 14.4274 0.663368C14.3548 0.294826 14.7414 -0.0153636 15.0516 0.196463C17.4905 1.86202 19.0914 4.66438 19.0914 7.84067C19.0914 12.9493 14.9501 17.0907 9.84145 17.0907C5.24982 17.0907 1.43959 13.7451 0.715408 9.35868C0.654273 8.98839 1.09783 8.76831 1.40118 8.98931C2.77129 9.98745 4.45863 10.5764 6.28352 10.5764Z"></path>
       </svg>
     </div>
-    <div id="continner" v-on:click="hideSuggest">
-      <div id="canvascontinner" @click="backhome">
+    <div id="container" v-on:click="hideSuggest">
+      <div id="canvascontainer" @click="backhome">
         <canvas id="canvas"/>
       </div>
       <div id="search" class="input-group">
@@ -91,7 +91,8 @@ export default {
         lr: "-",
         dateRestrict: "-"
       },
-      myFont: new FontFace("Inkfree", "url(https://cdn.jsdelivr.net/gh/omengye/wsweb/public/fonts/Inkfree.woff2)")
+      myFont: new FontFace("Inkfree", "url(https://cdn.jsdelivr.net/gh/omengye/wsweb/public/fonts/Inkfree.woff2)"),
+      darkmode: false
     };
   },
   computed: {},
@@ -167,7 +168,7 @@ export default {
     },
     itemDown() {
       if (this.suggests.length > 0) {
-        if (this.chooseIdx == this.suggests.length - 1) {
+        if (this.chooseIdx === this.suggests.length - 1) {
           this.chooseIdx = 0;
         } else {
           this.chooseIdx += 1;
@@ -217,13 +218,24 @@ export default {
     backhome() {
       window.location.href = window.location.origin + window.location.pathname;
     },
-    darkmode() {
-      this.draw('white')
+    changeMode() {
+      this.darkmode = !this.darkmode;
+      this.$refs.searchRes.darkmode = this.darkmode
+      let cssUrl = document.getElementById('css-mode').href;
+      let cssFile = cssUrl.split('/')[cssUrl.split('/').length-1];
+      if (this.darkmode) {
+        this.draw('#bcc3ce');
+        document.getElementById('css-mode').href = cssUrl.replace(cssFile, 'search-dark.css')
+      }
+      else {
+        this.draw('black');
+        document.getElementById('css-mode').href = cssUrl.replace(cssFile, 'search.css')
+      }
     }
   },
   watch: {
     searchText() {
-      if (this.searchText != "" && !this.suggestWait && !this.skipSearch) {
+      if (this.searchText !== "" && !this.suggestWait && !this.skipSearch) {
         this.suggestWait = true;
         this.finTime = 0;
         this.showSuggest = false;
@@ -232,7 +244,7 @@ export default {
           "/api/gcs/suggest?q=" + encodeURI(this.searchText),
           data => {
             if (
-              this.searchText == "" ||
+              this.searchText === "" ||
               this.sbtn ||
               (this.finTime > 0 && new Date() > this.finTime)
             ) {
@@ -278,6 +290,4 @@ export default {
 };
 </script>
 
-<style>
-@import "assets/css/search.css";
-</style>
+

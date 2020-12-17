@@ -1,0 +1,421 @@
+html, body {
+    height: 100%;
+}
+
+#appcontent {
+    height: 100%;
+}
+
+.wrapper {
+    position: relative;
+    min-height: 100%;
+    padding-bottom: 40px;
+    box-sizing: border-box;
+}
+
+b {
+    color: rgba(255,0,0,.57);
+    font-weight: 500;
+}
+
+#infos {
+    font-size: 14px;
+    margin-top: 3px;
+}
+
+.errormsg {
+    color: rgba(255,0,0,.57);
+    font-weight: 600;
+}
+
+#container {
+    width: 80%;
+    position: relative;
+    margin-left: 10%;
+}
+
+#search {
+    width: 80%;
+    padding-top: 5%;
+    margin-left: 10%;
+}
+
+.has-icon-right {
+    width: 40%;
+    min-width: 365px;
+}
+
+#search_txt {
+    width: 100%;
+    height: 40px;
+}
+
+#sbtn {
+    height: 40px;
+}
+
+.icon-cross {
+    cursor: pointer;
+}
+
+#result {
+    width: 80%;
+    padding-top: 1%;
+    margin-left: 10%;
+    z-index: 0;
+}
+
+.item {
+    margin-top: 2.5%;
+}
+
+.title {
+    font-size: 18px;
+    margin-top: 10px;
+    margin-bottom: 1px;
+    word-break: break-word;
+}
+
+.formattedUrl {
+    color: #006621;
+    word-wrap: break-word;
+}
+
+.htmlSnippet {
+    word-wrap: break-word;
+    word-break: normal;
+}
+
+.htmlSnippet b {
+    color: rgba(255,0,0,.57);
+    word-break: break-all;
+}
+
+.link {
+    color: #609;
+}
+
+#pageneration {
+    margin-top: 20px;
+    height: 70px;
+    float: left;
+}
+
+#suggest {
+    width: 32%;
+    min-width: 365px;
+    margin-left: 10%;
+    z-index: 1;
+    border-color: #ccc;
+    border-width: 1px;
+    border-style: solid;
+    position: absolute;
+    background-color: #fff;
+}
+
+#tools {
+    width: 40%;
+    height: 30px;
+    float: left;
+}
+
+#menu {
+    border: none;
+    width: 38px;
+    margin-top: 1px;
+}
+
+#menu>i {
+    margin-top: -3px;
+}
+
+.bcolor {
+    background-color: #ececec
+}
+
+.bcolorw {
+    background-color: white;
+}
+
+.menuForm {
+    width: 90px;
+    float: left;
+}
+
+.menuFormDest {
+    margin-left: 3px;
+}
+
+.sitem {
+    height: 34px;
+}
+
+.selitem {
+    background-color: #add8e6;
+}
+
+.sval {
+    padding-top: 5px;
+    padding-left: 5px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.correct-spelling {
+    height: 27px;
+}
+
+#spelling {
+    position: absolute;
+    cursor: pointer;
+    width: 80%;
+    margin-top: 5px;
+}
+
+#canvascontainer {
+    height: 75px;
+    width: 150px;
+    float: left;
+    margin-top: calc(5% - 20px);
+    margin-left: calc(10% - 160px);
+    position: absolute;
+}
+
+#canvas {
+    height: 70px;
+    width: 150px;
+    cursor: pointer;
+}
+
+.footer {
+    width: 100%;
+    text-align: right;
+    position: absolute;
+    bottom: 0;
+    height: 40px;
+    font-size: 12px;
+}
+
+.ipaddr {
+    height: 18px;
+    margin-right: 20px;
+}
+
+.copyright {
+    cursor: pointer;
+    height: 18px;
+    margin-right: 20px;
+}
+
+.copyright > a {
+    color: #50596c;
+}
+
+/* ie or edge delete button */
+::-ms-clear{display: none;}
+::-ms-reveal{display: none;}
+
+/* flip */
+.flip-container {
+    transform-style: preserve-3d;
+    position: relative;
+    width: 40%;
+    min-width: 365px;
+    height: 30px;
+    float: left;
+}
+
+#tools {
+    width: 100%;
+}
+
+.flipper {
+    transition: 0.6s;
+    transform-style: preserve-3d;
+    position: relative;
+}
+
+.front, .back {
+    width: 100%;
+    height: 30px;
+    backface-visibility: hidden;
+    transition: 0.6s;
+    transform-style: preserve-3d;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.front {
+    z-index: 2;
+    transform: rotateY(0deg);
+}
+
+.back {
+    transform: rotateX(180deg);
+}
+
+.frontflip {
+    transform: rotateX(180deg);
+}
+
+.backflip {
+    transform: rotateX(0deg);
+}
+
+.pbtn {
+    border: none;
+    padding: 6px 8px;
+    cursor: pointer;
+}
+
+#Tpagenum {
+    border: none;
+    padding: 6px 8px;
+    text-decoration: none;
+}
+
+.moon {
+    float: left;
+    margin-top: 15px;
+    margin-left: 15px;
+    z-index: 99;
+    position: absolute;
+}
+
+@media screen and (max-width:1200px) {
+    .flip-container {
+        width: calc(100% - 40px);
+    }
+
+    .has-icon-right {
+        width: calc(100% - 40px);
+    }
+
+    #search_txt {
+        width: 100%
+    }
+
+    #container {
+        width: 80%;
+        margin-left: 10%;
+    }
+
+    #search {
+        width: 90%;
+        margin-left: 5%;
+        padding-top: 75px;
+    }
+
+    #result {
+        width: 90%;
+        margin-left: 5%;
+    }
+
+    #suggest {
+        margin-left: 5%;
+        width: calc(90% - 40px);
+    }
+
+    #canvascontainer {
+        display: block;
+        float: none;
+        margin-top: 0;
+        margin-left: calc(50% - 75px);
+    }
+}
+
+@media screen and (max-width:550px) {
+    .flip-container {
+        width: calc(100% - 40px);
+        min-width: unset;
+    }
+    
+    .has-icon-right {
+        width: calc(100% - 40px);
+        min-width: unset;
+    }
+
+    #search_txt {
+        width: 100%
+    }
+
+    #container {
+        width: 90%;
+        margin-left: 5%;
+    }
+
+    #search {
+        width: 90%;
+        margin-left: 5%;
+    }
+
+    #result {
+        width: 90%;
+        margin-left: 5%;
+    }
+
+    #suggest {
+        margin-left: 5%;
+        width: calc(90% - 1px);
+        min-width: unset;
+    }
+
+    #canvascontainer {
+        display: block;
+        float: none;
+        margin-left: calc(50% - 75px);
+    }
+}
+
+@media screen and (max-width:400px) {
+    .flip-container {
+        width: calc(100% - 40px);
+        min-width: unset;
+    }
+    
+    .has-icon-right {
+        width: calc(100% - 40px);
+        min-width: unset;
+    }
+
+    #search_txt {
+        width: 100%
+    }
+
+    #container {
+        width: calc(100% - 10px);
+        margin-left: 5px;
+    }
+
+    #search {
+        width: calc(100% - 10px);
+        margin-left: 5px;
+    }
+
+    #result {
+        width: calc(100% - 10px);
+        margin-left: 5px;
+    }
+
+    #suggest {
+        margin-left: 5px;
+        width: calc(100% - 11px);
+        min-width: unset;
+    }
+
+    #canvascontainer {
+        display: block;
+        float: none;
+        margin-left: calc(50% - 75px);
+    }
+
+    .menuForm {
+        width: 82px;
+    }
+
+    .form-select.select-sm, .bcolorw {
+        font-size: 0.6rem;
+    }
+}

@@ -60,14 +60,4 @@ export default {
 </script>
 
 <style scoped>
-.pbtn {
-  border: none;
-  padding: 6px 8px;
-  cursor: pointer;
-}
-#Tpagenum {
-  border: none;
-  padding: 6px 8px;
-  text-decoration: none;
-}
 </style>
