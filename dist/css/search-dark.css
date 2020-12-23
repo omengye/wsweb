@@ -59,7 +59,7 @@ b {
     width: 100%;
     height: 40px;
     background-color: #2b2b2b;
-    color: white;
+    color: #bcc3ce;
 }
 
 #sbtn {
@@ -123,7 +123,7 @@ b {
     border-style: solid;
     position: absolute;
     background-color: #2b2b2b;
-    color: white;
+    color: #bcc3ce;
 }
 
 #tools {
@@ -137,7 +137,7 @@ b {
     width: 38px;
     margin-top: 1px;
     background-color: #2b2b2b;
-    color: white;
+    color: #bcc3ce;
 }
 
 #menu>i {
@@ -149,7 +149,7 @@ b {
 }
 
 .bcolorw {
-    background-color: white;
+    background-color: #bcc3ce;
 }
 
 .menuForm {
@@ -170,7 +170,7 @@ b {
 }
 
 .form-select.select-sm {
-    color: white;
+    color: #bcc3ce;
 }
 
 .sval {
@@ -192,7 +192,7 @@ b {
     margin-top: 5px;
 }
 
-#canvascontinner {
+#canvascontainer {
     height: 75px;
     width: 150px;
     float: left;
@@ -315,7 +315,7 @@ b {
     #search_txt {
         width: 100%;
         background-color: #2b2b2b;
-        color: white;
+        color: #bcc3ce;
     }
 
     #container {
@@ -338,13 +338,13 @@ b {
         margin-left: 5%;
         width: calc(90% - 40px);
         background-color: #2b2b2b;
-        color: white;
+        color: #bcc3ce;
     }
 
-    #canvascontinner {
+    #canvascontainer {
         display: block;
         float: none;
-        margin-top: 0px;
+        margin-top: 0;
         margin-left: calc(50% - 75px);
     }
 }
@@ -363,7 +363,7 @@ b {
     #search_txt {
         width: 100%;
         background-color: #2b2b2b;
-        color: white;
+        color: #bcc3ce;
     }
 
     #container {
@@ -386,10 +386,10 @@ b {
         width: calc(90% - 1px);
         min-width: unset;
         background-color: #2b2b2b;
-        color: white;
+        color: #bcc3ce;
     }
 
-    #canvascontinner {
+    #canvascontainer {
         display: block;
         float: none;
         margin-left: calc(50% - 75px);
@@ -410,7 +410,7 @@ b {
     #search_txt {
         width: 100%;
         background-color: #2b2b2b;
-        color: white;
+        color: #bcc3ce;
     }
 
     #container {
@@ -433,10 +433,10 @@ b {
         width: calc(100% - 11px);
         min-width: unset;
         background-color: #2b2b2b;
-        color: white;
+        color: #bcc3ce;
     }
 
-    #canvascontinner {
+    #canvascontainer {
         display: block;
         float: none;
         margin-left: calc(50% - 75px);

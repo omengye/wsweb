@@ -173,7 +173,7 @@ b {
     margin-top: 5px;
 }
 
-#canvascontinner {
+#canvascontainer {
     height: 75px;
     width: 150px;
     float: left;
@@ -318,10 +318,10 @@ b {
         width: calc(90% - 40px);
     }
 
-    #canvascontinner {
+    #canvascontainer {
         display: block;
         float: none;
-        margin-top: 0px;
+        margin-top: 0;
         margin-left: calc(50% - 75px);
     }
 }
@@ -362,7 +362,7 @@ b {
         min-width: unset;
     }
 
-    #canvascontinner {
+    #canvascontainer {
         display: block;
         float: none;
         margin-left: calc(50% - 75px);
@@ -405,7 +405,7 @@ b {
         min-width: unset;
     }
 
-    #canvascontinner {
+    #canvascontainer {
         display: block;
         float: none;
         margin-left: calc(50% - 75px);
