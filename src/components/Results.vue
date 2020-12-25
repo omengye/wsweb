@@ -217,7 +217,7 @@ export default {
       if (this.darkmode) {
         return '#2b2b2b';
       }
-      return '#bcc3ce';
+      return 'white';
     },
     getColorModeSel(){
       if (this.darkmode) {
