@@ -203,6 +203,7 @@ export default {
     cleanText() {
       this.searchText = "";
       this.searchInfo.page = 1;
+      this.$refs["sinput"].focus();
     },
     // logo
     draw(style) {
@@ -286,10 +287,12 @@ export default {
         this.search();
       }
     });
+    document.getElementById('container').style["display"] = "none"
     if (localStorage.hasOwnProperty('mode')) {
       this.darkmode = JSON.parse(localStorage.getItem('mode'))
     }
     this.initMode();
+    document.getElementById('container').style["display"] = "block"
   },
   created() {}
 };
