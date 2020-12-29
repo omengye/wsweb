@@ -218,8 +218,7 @@ export default {
     backhome() {
       window.location.href = window.location.origin + window.location.pathname;
     },
-    changeMode() {
-      this.darkmode = !this.darkmode;
+    initMode() {
       this.$refs.searchRes.darkmode = this.darkmode
       let cssUrl = document.getElementById('css-mode').href;
       let cssFile = cssUrl.split('/')[cssUrl.split('/').length-1];
@@ -231,6 +230,11 @@ export default {
         this.draw('black');
         document.getElementById('css-mode').href = cssUrl.replace(cssFile, 'search.css')
       }
+    },
+    changeMode() {
+      this.darkmode = !this.darkmode;
+      localStorage.setItem('mode', this.darkmode);
+      this.initMode();
     }
   },
   watch: {
@@ -276,15 +280,16 @@ export default {
     this.$refs["sinput"].focus();
     utils.getToken(() => {
       if (window.localStorage.access_token) {
-        this.ipAddr =
-          "From: " + JSON.parse(window.localStorage.access_token).ip;
-
+        this.ipAddr = "From: " + JSON.parse(window.localStorage.access_token).ip;
         this.copyright_year = JSON.parse(window.localStorage.access_token).visitTime.substring(0, 4);
         this.getParamFromUrl();
         this.search();
       }
     });
-    this.draw('black');
+    if (localStorage.hasOwnProperty('mode')) {
+      this.darkmode = JSON.parse(localStorage.getItem('mode'))
+    }
+    this.initMode();
   },
   created() {}
 };
