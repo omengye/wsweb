@@ -42,6 +42,7 @@ b {
     width: 80%;
     position: relative;
     margin-left: 10%;
+    display: none;
 }
 
 #search {
@@ -321,6 +322,7 @@ b {
     #container {
         width: 80%;
         margin-left: 10%;
+        display: none;
     }
 
     #search {
@@ -369,6 +371,7 @@ b {
     #container {
         width: 90%;
         margin-left: 5%;
+        display: none;
     }
 
     #search {
@@ -416,6 +419,7 @@ b {
     #container {
         width: calc(100% - 10px);
         margin-left: 5px;
+        display: none;
     }
 
     #search {

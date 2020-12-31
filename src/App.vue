@@ -231,6 +231,7 @@ export default {
         this.draw('black');
         document.getElementById('css-mode').href = cssUrl.replace(cssFile, 'search.css')
       }
+      document.getElementById('container').style["display"] = "block"
     },
     changeMode() {
       this.darkmode = !this.darkmode;
@@ -287,12 +288,10 @@ export default {
         this.search();
       }
     });
-    document.getElementById('container').style["display"] = "none"
     if (localStorage.hasOwnProperty('mode')) {
       this.darkmode = JSON.parse(localStorage.getItem('mode'))
     }
     this.initMode();
-    document.getElementById('container').style["display"] = "block"
   },
   created() {}
 };
