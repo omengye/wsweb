@@ -8,7 +8,7 @@ module.exports = {
           changOrigin: true, //跨域
         },
         "/": {
-          target: "http://127.0.0.1:9000/",
+          target: "http://gateway:9000/",
           ws: false,
           changOrigin: true,
         }
