@@ -1,4 +1,9 @@
 module.exports = {
+    configureWebpack: {
+      resolve: {
+          fallback: { "timers": require.resolve("timers-browserify") }
+      }
+    },
     devServer: {
       // 设置代理
       proxy: {

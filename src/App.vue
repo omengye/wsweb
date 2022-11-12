@@ -288,7 +288,7 @@ export default {
         this.search();
       }
     });
-    if (localStorage.hasOwnProperty('mode')) {
+    if (localStorage.getItem('mode') !== null) {
       this.darkmode = JSON.parse(localStorage.getItem('mode'))
     }
     this.initMode();

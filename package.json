@@ -9,19 +9,17 @@
   },
   "dependencies": {
     "axios": "^0.21.1",
-    "babel-polyfill": "^6.26.0",
     "core-js": "^3.6.4",
     "vue": "^2.6.10"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^5.0.8",
     "@vue/cli-plugin-eslint": "^5.0.8",
     "@vue/cli-service": "^5.0.8",
-    "babel-eslint": "^10.0.3",
     "eslint": ">=7.5.0",
     "eslint-plugin-vue": ">=7.0.0",
     "kind-of": ">=6.0.3",
-    "vue-template-compiler": "^2.6.10"
+    "vue-template-compiler": "^2.6.10",
+    "timers-browserify": "^2.0.12"
   },
   "eslintConfig": {
     "root": true,
@@ -32,10 +30,7 @@
       "plugin:vue/essential",
       "eslint:recommended"
     ],
-    "rules": {},
-    "parserOptions": {
-      "parser": "babel-eslint"
-    }
+    "rules": {"vue/multi-word-component-names": "off"}
   },
   "browserslist": [
     "> 1%",
